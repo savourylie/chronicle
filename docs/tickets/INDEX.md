@@ -13,7 +13,7 @@
 001 Project Scaffolding ✅ DONE
  ├── 002 Design Tokens & Theme Config ✅ DONE
  ├── 003 TypeScript Data Model ✅ DONE (001)
- │    ├── 004 Mock/Sample Data Generator (003)
+ │    ├── 004 Mock/Sample Data Generator ✅ DONE (003)
  │    ├── 005 Git Log Ingestion & Parser (003)
  │    │    ├── 006 Conventional Commit Parser (005)
  │    │    ├── 007 File-Path Clustering (005)
@@ -49,7 +49,7 @@
 | 001 | [Project Scaffolding](./001-project-scaffolding.md) | `done` | — |
 | 002 | [Design Token Configuration](./002-design-token-configuration.md) | `done` | 001 |
 | 003 | [TypeScript Data Model](./003-typescript-data-model.md) | `done` | 001 |
-| 004 | [Mock Data Generator](./004-mock-data-generator.md) | `not started` | 003 |
+| 004 | [Mock Data Generator](./004-mock-data-generator.md) | `done` | 003 |
 
 ## Phase 2: Data Pipeline (M1)
 
@@ -67,7 +67,7 @@
 |---|--------|--------|------|
 | 010 | [Zustand Visualization Store](./010-zustand-visualization-store.md) | `not started` | 003 |
 | 011 | [App Layout Shell](./011-app-layout-shell.md) | `not started` | 002 |
-| 012 | [D3 Circle Packing – Static Render](./012-d3-circle-packing-static.md) | `not started` | 004, 010, 011 |
+| 012 | [D3 Circle Packing – Static Render](./012-d3-circle-packing-static.md) | `not started` | 004 ✅, 010, 011 |
 | 013 | [Circle Packing Zoom Transitions](./013-circle-packing-zoom-transitions.md) | `not started` | 012 |
 | 014 | [Color & Size Encoding](./014-color-size-encoding.md) | `not started` | 012 |
 | 015 | [Hover Tooltips](./015-hover-tooltips.md) | `not started` | 012 |
@@ -78,7 +78,7 @@
 |---|--------|--------|------|
 | 016 | [Detail Panel](./016-detail-panel.md) | `not started` | 012, 002 |
 | 017 | [Breadcrumb Navigation](./017-breadcrumb-navigation.md) | `not started` | 010, 013 |
-| 018 | [Timeline Minimap](./018-timeline-minimap.md) | `not started` | 004, 010, 011 |
+| 018 | [Timeline Minimap](./018-timeline-minimap.md) | `not started` | 004 ✅, 010, 011 |
 | 019 | [Search & Highlight](./019-search-highlight.md) | `not started` | 010, 012, 013 |
 
 ## Phase 5: Integration & Polish
