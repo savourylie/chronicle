@@ -1,7 +1,7 @@
 # Ticket 003: TypeScript Data Model & Types
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 1: Foundation (M0)
@@ -13,26 +13,26 @@ Phase 1: Foundation (M0)
 Define the core TypeScript types and interfaces that represent git commits, commit groups, and visualization state. These types are the shared contract between the data pipeline, state management, and UI components.
 
 ## Requirements
-- [ ] Define `CommitNode` interface:
+- [x] Define `CommitNode` interface:
   - `hash`, `shortHash`, `message`, `author: { name, email }`, `date` (ISO 8601)
   - `filesChanged: string[]`, `insertions: number`, `deletions: number`
   - `type?: string` (feat, fix, refactor, etc.), `scope?: string`
   - `parentHashes: string[]`
   - `prNumber?: number`, `prTitle?: string`
-- [ ] Define `CommitGroup` interface:
+- [x] Define `CommitGroup` interface:
   - `id`, `name`, `level` (0=epoch, 1=chapter, 2=scene)
   - `groupingStrategy: "conventional-commit" | "file-path" | "time-session" | "manual"`
   - `children: (CommitGroup | CommitNode)[]`
   - `metadata: { dateRange, commitCount, authors, topFiles, totalInsertions, totalDeletions }`
-- [ ] Define `VisualizationState` interface:
+- [x] Define `VisualizationState` interface:
   - `root: CommitGroup`
   - `zoomPath: string[]`
   - `selectedNode: string | null`
   - `filters: { dateRange?, authors?, types?, searchQuery? }`
   - `encoding: { size: "linesChanged" | "fileCount" | "commitCount", color: "type" | "author" | "recency" | "churn" }`
-- [ ] Define type guards: `isCommitNode(node)` and `isCommitGroup(node)`
-- [ ] Define `GroupingStrategy` type union
-- [ ] Define `SizeEncoding` and `ColorEncoding` type unions
+- [x] Define type guards: `isCommitNode(node)` and `isCommitGroup(node)`
+- [x] Define `GroupingStrategy` type union
+- [x] Define `SizeEncoding` and `ColorEncoding` type unions
 
 ## Files to Create/Modify
 - `src/types/commit.ts` — CommitNode interface
@@ -41,10 +41,10 @@ Define the core TypeScript types and interfaces that represent git commits, comm
 - `src/types/index.ts` — re-exports
 
 ## Acceptance Criteria
-- [ ] All types compile with TypeScript strict mode
-- [ ] Type guards correctly discriminate between CommitNode and CommitGroup
-- [ ] Types match the data model defined in PRD Section 6.4
-- [ ] All type files are re-exported from `src/types/index.ts`
+- [x] All types compile with TypeScript strict mode
+- [x] Type guards correctly discriminate between CommitNode and CommitGroup
+- [x] Types match the data model defined in PRD Section 6.4
+- [x] All type files are re-exported from `src/types/index.ts`
 
 ## Notes
 - These types are defined in PRD Section 6.4 — follow that specification closely
