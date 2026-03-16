@@ -10,7 +10,7 @@
 ## Dependency Graph
 
 ```
-001 Project Scaffolding
+001 Project Scaffolding ✅ DONE
  ├── 002 Design Tokens & Theme Config (001)
  ├── 003 TypeScript Data Model (001)
  │    ├── 004 Mock/Sample Data Generator (003)
@@ -46,7 +46,7 @@
 
 | # | Ticket | Status | Deps |
 |---|--------|--------|------|
-| 001 | [Project Scaffolding](./001-project-scaffolding.md) | `not started` | — |
+| 001 | [Project Scaffolding](./001-project-scaffolding.md) | `done` | — |
 | 002 | [Design Token Configuration](./002-design-token-configuration.md) | `not started` | 001 |
 | 003 | [TypeScript Data Model](./003-typescript-data-model.md) | `not started` | 001 |
 | 004 | [Mock Data Generator](./004-mock-data-generator.md) | `not started` | 003 |
