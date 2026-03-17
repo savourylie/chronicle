@@ -1,3 +1,4 @@
+import { CirclePack } from "@/components/circle-pack";
 import { Header } from "@/components/layout/header";
 import { Decorations } from "@/components/layout/decorations";
 
@@ -15,7 +16,9 @@ export default function Home() {
       <main
         data-slot="visualization"
         className="relative z-10 min-h-0 flex-grow"
-      />
+      >
+        <CirclePack />
+      </main>
 
       {/* Timeline slot */}
       <div
