@@ -1,7 +1,7 @@
 # Ticket 005: Git Log Ingestion & Parser
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 2: Data Pipeline (M1)
@@ -13,22 +13,22 @@ Phase 2: Data Pipeline (M1)
 Build a parser that executes `git log` against a local repository and converts the raw output into a typed `CommitNode[]` array. This is the entry point of the data pipeline — all downstream grouping and clustering operates on the output of this parser.
 
 ## Requirements
-- [ ] Execute `git log` with structured format flags to extract:
+- [x] Execute `git log` with structured format flags to extract:
   - Hash, short hash, author name, author email, date (ISO 8601)
   - Subject line, body, parent hashes
   - `--numstat` for per-file insertions/deletions
-- [ ] Parse the raw output into `CommitNode[]`
+- [x] Parse the raw output into `CommitNode[]`
   - Handle multi-line commit messages
   - Parse `--numstat` lines into `filesChanged`, `insertions`, `deletions`
   - Handle binary files in numstat (shown as `-` for insertions/deletions)
   - Handle merge commits (multiple parent hashes)
-- [ ] Accept configuration options:
+- [x] Accept configuration options:
   - `repoPath: string` — path to the git repository
   - `maxCommits?: number` — limit for large repos (default: 10000)
   - `since?: string` — date filter (ISO 8601)
   - `until?: string` — date filter (ISO 8601)
   - `branch?: string` — specific branch (default: all with `--all`)
-- [ ] Handle error cases:
+- [x] Handle error cases:
   - Path is not a git repository
   - Git is not installed
   - Empty repository (no commits)
@@ -37,12 +37,12 @@ Build a parser that executes `git log` against a local repository and converts t
 - `src/lib/pipeline/git-parser.ts` — main parser module
 
 ## Acceptance Criteria
-- [ ] Parses a real git repository into valid `CommitNode[]`
-- [ ] All `CommitNode` fields are populated correctly
-- [ ] `filesChanged` accurately lists modified files per commit
-- [ ] `insertions`/`deletions` are correct numeric totals
-- [ ] Handles repos with 1000+ commits without hanging
-- [ ] Returns descriptive errors for invalid inputs
+- [x] Parses a real git repository into valid `CommitNode[]`
+- [x] All `CommitNode` fields are populated correctly
+- [x] `filesChanged` accurately lists modified files per commit
+- [x] `insertions`/`deletions` are correct numeric totals
+- [x] Handles repos with 1000+ commits without hanging
+- [x] Returns descriptive errors for invalid inputs
 
 ## Notes
 - Reference PRD Section 7 for the recommended `git log` format
