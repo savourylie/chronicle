@@ -15,7 +15,7 @@
  ├── 003 TypeScript Data Model ✅ DONE (001)
  │    ├── 004 Mock/Sample Data Generator ✅ DONE (003)
  │    ├── 005 Git Log Ingestion & Parser ✅ DONE (003)
- │    │    ├── 006 Conventional Commit Parser (005)
+ │    │    ├── 006 Conventional Commit Parser ✅ DONE (005)
  │    │    ├── 007 File-Path Clustering (005)
  │    │    ├── 008 Time-Session Grouping (005)
  │    │    └── 009 Hierarchy Builder (006, 007, 008)
@@ -56,10 +56,10 @@
 | # | Ticket | Status | Deps |
 |---|--------|--------|------|
 | 005 | [Git Log Ingestion & Parser](./005-git-log-ingestion-parser.md) | `done` | 003 |
-| 006 | [Conventional Commit Parser](./006-conventional-commit-parser.md) | `not started` | 005 ✅ |
+| 006 | [Conventional Commit Parser](./006-conventional-commit-parser.md) | `done` | 005 ✅ |
 | 007 | [File-Path Clustering](./007-file-path-clustering.md) | `not started` | 005 ✅ |
 | 008 | [Time-Session Grouping](./008-time-session-grouping.md) | `not started` | 005 ✅ |
-| 009 | [Hierarchy Builder](./009-hierarchy-builder.md) | `not started` | 006, 007, 008 |
+| 009 | [Hierarchy Builder](./009-hierarchy-builder.md) | `not started` | 006 ✅, 007, 008 |
 
 ## Phase 3: Core Visualization (M2 part 1)
 

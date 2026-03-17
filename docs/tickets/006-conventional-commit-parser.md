@@ -1,7 +1,7 @@
 # Ticket 006: Conventional Commit Parser
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 2: Data Pipeline (M1)
@@ -13,15 +13,15 @@ Phase 2: Data Pipeline (M1)
 Parse conventional commit prefixes (`feat:`, `fix:`, `refactor:`, etc.) from commit messages to automatically categorize commits. Populates the `type` and `scope` fields on `CommitNode`. This is one of the three grouping strategies that feed into the hierarchy builder.
 
 ## Requirements
-- [ ] Parse conventional commit format: `type(scope): description`
+- [x] Parse conventional commit format: `type(scope): description`
   - Extract `type`: feat, fix, refactor, docs, chore, test, style, perf, ci, build
   - Extract optional `scope`: e.g., `feat(auth): ...` → scope = "auth"
   - Handle breaking changes: `feat!:` or `BREAKING CHANGE` in body
-- [ ] Handle non-conventional messages gracefully:
+- [x] Handle non-conventional messages gracefully:
   - Return `type: undefined`, `scope: undefined` — do not throw
   - Attempt fuzzy matching for common patterns (e.g., "Fix bug in..." → type: "fix")
-- [ ] Process a `CommitNode[]` and return enriched `CommitNode[]` with `type` and `scope` populated
-- [ ] Track parsing statistics:
+- [x] Process a `CommitNode[]` and return enriched `CommitNode[]` with `type` and `scope` populated
+- [x] Track parsing statistics:
   - Count of successfully parsed vs. unparsed commits
   - Distribution of commit types
 
@@ -29,11 +29,11 @@ Parse conventional commit prefixes (`feat:`, `fix:`, `refactor:`, etc.) from com
 - `src/lib/pipeline/conventional-parser.ts` — parser module
 
 ## Acceptance Criteria
-- [ ] `feat(auth): add login` → `{ type: "feat", scope: "auth" }`
-- [ ] `fix: resolve crash` → `{ type: "fix", scope: undefined }`
-- [ ] `random message` → `{ type: undefined, scope: undefined }` (no error)
-- [ ] `feat!: breaking change` → correctly identifies as feat with breaking flag
-- [ ] Processes 10k commits in under 100ms
+- [x] `feat(auth): add login` → `{ type: "feat", scope: "auth" }`
+- [x] `fix: resolve crash` → `{ type: "fix", scope: undefined }`
+- [x] `random message` → `{ type: undefined, scope: undefined }` (no error)
+- [x] `feat!: breaking change` → correctly identifies as feat with breaking flag
+- [x] Processes 10k commits in under 100ms
 
 ## Notes
 - PRD references the `conventional-commits-parser` npm package — evaluate whether to use it or write a lightweight parser (the npm package may be heavier than needed)
