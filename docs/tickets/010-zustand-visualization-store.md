@@ -1,7 +1,7 @@
 # Ticket 010: Zustand Visualization Store
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 3: Core Visualization (M2 part 1)
@@ -38,11 +38,11 @@ Implement the central state management store using Zustand. This store holds the
 - `src/store/visualization-store.ts` — Zustand store definition
 
 ## Acceptance Criteria
-- [ ] `useVisualizationStore()` returns typed state and actions
-- [ ] `zoomTo` / `zoomOut` correctly manage the zoom path stack
-- [ ] `currentFocus` returns the correct node for any zoom depth
-- [ ] Filters correctly narrow the visible nodes
-- [ ] Store updates trigger re-renders only in subscribing components
+- [x] `useVisualizationStore()` returns typed state and actions
+- [x] `zoomTo` / `zoomOut` correctly manage the zoom path stack
+- [x] `currentFocus` returns the correct node for any zoom depth
+- [x] Filters correctly narrow the visible nodes
+- [x] Store updates trigger re-renders only in subscribing components
 
 ## Notes
 - Zustand is chosen for its simplicity and minimal boilerplate

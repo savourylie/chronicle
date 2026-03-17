@@ -19,7 +19,7 @@
  │    │    ├── 007 File-Path Clustering ✅ DONE (005)
  │    │    ├── 008 Time-Session Grouping ✅ DONE (005)
  │    │    └── 009 Hierarchy Builder ✅ DONE (006, 007, 008)
- │    └── 010 Zustand Visualization Store (003)
+ │    └── 010 Zustand Visualization Store ✅ DONE (003)
  └── 011 App Layout Shell (002)
       ├── 012 D3 Circle Packing – Static Render (004, 010, 011)
       │    ├── 013 Circle Packing Zoom Transitions (012)
@@ -65,9 +65,9 @@
 
 | # | Ticket | Status | Deps |
 |---|--------|--------|------|
-| 010 | [Zustand Visualization Store](./010-zustand-visualization-store.md) | `not started` | 003 |
+| 010 | [Zustand Visualization Store](./010-zustand-visualization-store.md) | `done` | 003 ✅ |
 | 011 | [App Layout Shell](./011-app-layout-shell.md) | `not started` | 002 |
-| 012 | [D3 Circle Packing – Static Render](./012-d3-circle-packing-static.md) | `not started` | 004 ✅, 010, 011 |
+| 012 | [D3 Circle Packing – Static Render](./012-d3-circle-packing-static.md) | `not started` | 004 ✅, 010 ✅, 011 |
 | 013 | [Circle Packing Zoom Transitions](./013-circle-packing-zoom-transitions.md) | `not started` | 012 |
 | 014 | [Color & Size Encoding](./014-color-size-encoding.md) | `not started` | 012 |
 | 015 | [Hover Tooltips](./015-hover-tooltips.md) | `not started` | 012 |
@@ -77,9 +77,9 @@
 | # | Ticket | Status | Deps |
 |---|--------|--------|------|
 | 016 | [Detail Panel](./016-detail-panel.md) | `not started` | 012, 002 |
-| 017 | [Breadcrumb Navigation](./017-breadcrumb-navigation.md) | `not started` | 010, 013 |
-| 018 | [Timeline Minimap](./018-timeline-minimap.md) | `not started` | 004 ✅, 010, 011 |
-| 019 | [Search & Highlight](./019-search-highlight.md) | `not started` | 010, 012, 013 |
+| 017 | [Breadcrumb Navigation](./017-breadcrumb-navigation.md) | `not started` | 010 ✅, 013 |
+| 018 | [Timeline Minimap](./018-timeline-minimap.md) | `not started` | 004 ✅, 010 ✅, 011 |
+| 019 | [Search & Highlight](./019-search-highlight.md) | `not started` | 010 ✅, 012, 013 |
 
 ## Phase 5: Integration & Polish
 
@@ -87,7 +87,7 @@
 |---|--------|--------|------|
 | 020 | [Encoding Controls Toolbar](./020-encoding-controls-toolbar.md) | `not started` | 002, 014 |
 | 021 | [Git Data API Route](./021-git-data-api-route.md) | `not started` | 009 ✅ |
-| 022 | [URL State Sharing](./022-url-state-sharing.md) | `not started` | 010 |
+| 022 | [URL State Sharing](./022-url-state-sharing.md) | `not started` | 010 ✅ |
 | 023 | [QA & Polish Pass](./023-qa-polish-pass.md) | `not started` | all |
 
 ## Phase 6: GitHub Analysis
@@ -99,4 +99,4 @@
 | 026 | [Git Clone Manager](./026-git-clone-manager.md) | `not started` | 001 |
 | 027 | [Analysis Types & Data Access Layer](./027-analysis-types-data-access.md) | `not started` | 003, 024 |
 | 028 | [GitHub Analysis API Route](./028-github-analysis-api-route.md) | `not started` | 021, 025, 026, 027 |
-| 029 | [GitHub Analysis Frontend](./029-github-analysis-frontend.md) | `not started` | 010, 011, 028 |
+| 029 | [GitHub Analysis Frontend](./029-github-analysis-frontend.md) | `not started` | 010 ✅, 011, 028 |
