@@ -1,7 +1,7 @@
 # Ticket 011: App Layout Shell
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 3: Core Visualization (M2 part 1)
@@ -43,11 +43,11 @@ Build the main application layout with the "Playful Geometric" design system. Th
 - `src/components/providers.tsx` — TanStack Query provider wrapper
 
 ## Acceptance Criteria
-- [ ] Page renders with warm cream background and correct typography
-- [ ] Visualization area fills the available viewport
-- [ ] Panel and timeline slots are positioned correctly (even if empty)
-- [ ] Layout looks correct at desktop (1440px) and mobile (375px) widths
-- [ ] No layout shift or scroll issues
+- [x] Page renders with warm cream background and correct typography
+- [x] Visualization area fills the available viewport
+- [x] Panel and timeline slots are positioned correctly (even if empty)
+- [x] Layout looks correct at desktop (1440px) and mobile (375px) widths
+- [x] No layout shift or scroll issues
 
 ## Notes
 - The layout is a shell — actual components (circle pack, timeline, panel) are added in later tickets
