@@ -1,7 +1,7 @@
 # Ticket 008: Time-Session Grouping
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 2: Data Pipeline (M1)
@@ -34,11 +34,11 @@ Cluster sequential commits by the same author on similar files within a configur
 - `src/lib/pipeline/time-session.ts` — session grouping module
 
 ## Acceptance Criteria
-- [ ] 5 commits by "Alice" within 1 hour form a single session
-- [ ] A 3-hour gap between commits by the same author creates two sessions
-- [ ] Different authors' commits are never merged into one session
-- [ ] Session names are readable and informative
-- [ ] Processes commits sorted by date in a single pass (O(n))
+- [x] 5 commits by "Alice" within 1 hour form a single session
+- [x] A 3-hour gap between commits by the same author creates two sessions
+- [x] Different authors' commits are never merged into one session
+- [x] Session names are readable and informative
+- [x] Processes commits sorted by date in a single pass (O(n))
 
 ## Notes
 - PRD Section 4.1: "Cluster sequential commits by same author on similar files within a configurable time window (default: 2 hours)"
