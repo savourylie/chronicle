@@ -18,7 +18,7 @@
  │    │    ├── 006 Conventional Commit Parser ✅ DONE (005)
  │    │    ├── 007 File-Path Clustering ✅ DONE (005)
  │    │    ├── 008 Time-Session Grouping ✅ DONE (005)
- │    │    └── 009 Hierarchy Builder (006, 007, 008)
+ │    │    └── 009 Hierarchy Builder ✅ DONE (006, 007, 008)
  │    └── 010 Zustand Visualization Store (003)
  └── 011 App Layout Shell (002)
       ├── 012 D3 Circle Packing – Static Render (004, 010, 011)
@@ -30,7 +30,7 @@
       │    ├── 015 Hover Tooltips (012)
       │    └── 016 Detail Panel (012, 002)
       └── 018 Timeline Minimap (004, 010, 011)
-021 Git Data API Route (009)
+021 Git Data API Route (009 ✅)
 022 URL State Sharing (010)
 023 QA & Polish Pass (all)
 
@@ -59,7 +59,7 @@
 | 006 | [Conventional Commit Parser](./006-conventional-commit-parser.md) | `done` | 005 ✅ |
 | 007 | [File-Path Clustering](./007-file-path-clustering.md) | `done` | 005 ✅ |
 | 008 | [Time-Session Grouping](./008-time-session-grouping.md) | `done` | 005 ✅ |
-| 009 | [Hierarchy Builder](./009-hierarchy-builder.md) | `not started` | 006 ✅, 007 ✅, 008 ✅ |
+| 009 | [Hierarchy Builder](./009-hierarchy-builder.md) | `done` | 006 ✅, 007 ✅, 008 ✅ |
 
 ## Phase 3: Core Visualization (M2 part 1)
 
@@ -86,7 +86,7 @@
 | # | Ticket | Status | Deps |
 |---|--------|--------|------|
 | 020 | [Encoding Controls Toolbar](./020-encoding-controls-toolbar.md) | `not started` | 002, 014 |
-| 021 | [Git Data API Route](./021-git-data-api-route.md) | `not started` | 009 |
+| 021 | [Git Data API Route](./021-git-data-api-route.md) | `not started` | 009 ✅ |
 | 022 | [URL State Sharing](./022-url-state-sharing.md) | `not started` | 010 |
 | 023 | [QA & Polish Pass](./023-qa-polish-pass.md) | `not started` | all |
 

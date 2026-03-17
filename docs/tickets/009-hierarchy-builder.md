@@ -1,7 +1,7 @@
 # Ticket 009: Hierarchy Builder
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 2: Data Pipeline (M1)
@@ -35,12 +35,12 @@ Combine the outputs of conventional commit parsing, file-path clustering, and ti
 - `src/lib/pipeline/hierarchy-builder.ts` — builder module
 
 ## Acceptance Criteria
-- [ ] Produces a valid `CommitGroup` tree from real pipeline outputs
-- [ ] Every input commit appears exactly once as a leaf node
-- [ ] No empty groups (groups with 0 commits are pruned)
-- [ ] Metadata fields are correctly computed at every level
-- [ ] The root node has `level: 0` and contains the full hierarchy
-- [ ] Tree structure matches `VisualizationState.root` type
+- [x] Produces a valid `CommitGroup` tree from real pipeline outputs
+- [x] Every input commit appears exactly once as a leaf node
+- [x] No empty groups (groups with 0 commits are pruned)
+- [x] Metadata fields are correctly computed at every level
+- [x] The root node has `level: 0` and contains the full hierarchy
+- [x] Tree structure matches `VisualizationState.root` type
 
 ## Notes
 - This is the most complex pipeline stage — it orchestrates the three grouping strategies
