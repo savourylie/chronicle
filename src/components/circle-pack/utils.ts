@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 
 import type { CommitGroup, CommitNode, SizeEncoding } from "@/types";
-import { isCommitNode, isCommitGroup } from "@/types";
+import { isCommitNode } from "@/types";
 
 // ---------------------------------------------------------------------------
 // HierarchyDatum — the shape D3 works with
@@ -131,4 +131,19 @@ export function getNodeColor(
 
 export function shouldShowLabel(radius: number, isLeaf: boolean): boolean {
   return isLeaf ? radius > 20 : radius > 30;
+}
+
+/** DFS lookup in a packed D3 hierarchy by datum id. */
+export function findPackedNode(
+  root: d3.HierarchyCircularNode<HierarchyDatum>,
+  id: string,
+): d3.HierarchyCircularNode<HierarchyDatum> | null {
+  if (root.data.id === id) return root;
+  if (root.children) {
+    for (const child of root.children) {
+      const found = findPackedNode(child, id);
+      if (found) return found;
+    }
+  }
+  return null;
 }

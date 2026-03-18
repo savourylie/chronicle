@@ -1,16 +1,28 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import { CircleDashed } from "@phosphor-icons/react";
 
 import { MOCK_DATA } from "@/lib/mock-data";
 import { useVisualizationStore } from "@/store/visualization-store";
 import {
   buildD3Hierarchy,
+  findPackedNode,
   getNodeColor,
   shouldShowLabel,
   type HierarchyDatum,
 } from "./utils";
+import {
+  computeZoomView,
+  createZoomTransition,
+  easeInOutCubic,
+  getEffectiveRadius,
+  zoomViewToTransform,
+  ZOOM_DURATION_MS,
+  type ZoomTransform,
+  type ZoomView,
+} from "./zoom";
 
 export function CirclePack() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -21,6 +33,22 @@ export function CirclePack() {
   const sizeEncoding = useVisualizationStore((s) => s.encoding.size);
   const setRoot = useVisualizationStore((s) => s.setRoot);
   const selectNode = useVisualizationStore((s) => s.selectNode);
+  const zoomPath = useVisualizationStore((s) => s.zoomPath);
+  const zoomTo = useVisualizationStore((s) => s.zoomTo);
+  const zoomOut = useVisualizationStore((s) => s.zoomOut);
+
+  const prefersReducedMotion = useReducedMotion();
+
+  // Zoom animation refs
+  const currentViewRef = useRef<ZoomView | null>(null);
+  const rafIdRef = useRef<number>(0);
+  const animStartRef = useRef<number>(0);
+
+  const [transform, setTransform] = useState<ZoomTransform>({
+    tx: 0,
+    ty: 0,
+    k: 1,
+  });
 
   // Seed mock data on mount if store is empty
   useEffect(() => {
@@ -49,8 +77,98 @@ export function CirclePack() {
   // Compute D3 pack layout
   const packedRoot = useMemo(() => {
     if (!root || dimensions.width === 0 || dimensions.height === 0) return null;
-    return buildD3Hierarchy(root, sizeEncoding, dimensions.width, dimensions.height);
+    return buildD3Hierarchy(
+      root,
+      sizeEncoding,
+      dimensions.width,
+      dimensions.height,
+    );
   }, [root, sizeEncoding, dimensions.width, dimensions.height]);
+
+  // --- Zoom animation driven by zoomPath changes ---
+  useEffect(() => {
+    if (!packedRoot || dimensions.width === 0) return;
+
+    const { width, height } = dimensions;
+
+    // Find the target node in the packed hierarchy
+    const targetId = zoomPath.length > 0 ? zoomPath[zoomPath.length - 1] : null;
+    const targetNode = targetId ? findPackedNode(packedRoot, targetId) : packedRoot;
+
+    if (!targetNode) return;
+
+    const targetView = computeZoomView(targetNode, width, height);
+
+    // If no previous view, snap instantly (initial render)
+    if (!currentViewRef.current) {
+      currentViewRef.current = targetView;
+      rafIdRef.current = requestAnimationFrame(() => {
+        setTransform(zoomViewToTransform(targetView, width, height));
+      });
+      return () => cancelAnimationFrame(rafIdRef.current);
+    }
+
+    // Reduced motion: instant transition
+    if (prefersReducedMotion) {
+      cancelAnimationFrame(rafIdRef.current);
+      currentViewRef.current = targetView;
+      rafIdRef.current = requestAnimationFrame(() => {
+        setTransform(zoomViewToTransform(targetView, width, height));
+      });
+      return () => cancelAnimationFrame(rafIdRef.current);
+    }
+
+    // Cancel any in-progress animation — take current interpolated position
+    cancelAnimationFrame(rafIdRef.current);
+    const fromView = currentViewRef.current;
+
+    const interpolator = createZoomTransition(fromView, targetView);
+
+    animStartRef.current = 0;
+    const animate = (timestamp: number) => {
+      if (!animStartRef.current) animStartRef.current = timestamp;
+      const elapsed = timestamp - animStartRef.current;
+      const rawT = Math.min(elapsed / ZOOM_DURATION_MS, 1);
+      const t = easeInOutCubic(rawT);
+
+      const view = interpolator(t);
+      currentViewRef.current = view;
+      setTransform(zoomViewToTransform(view, width, height));
+
+      if (rawT < 1) {
+        rafIdRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    rafIdRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafIdRef.current);
+  }, [zoomPath, packedRoot, dimensions, prefersReducedMotion]);
+
+  // --- Click handlers ---
+
+  const handleZoom = useCallback(
+    (nodeId: string) => {
+      selectNode(null);
+      zoomTo(nodeId);
+    },
+    [zoomTo, selectNode],
+  );
+
+  const handleBackgroundClick = useCallback(() => {
+    selectNode(null);
+    if (zoomPath.length > 0) {
+      zoomOut();
+    }
+  }, [selectNode, zoomOut, zoomPath.length]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Escape") {
+        zoomOut();
+      }
+    },
+    [zoomOut],
+  );
 
   // --- Empty / loading states ---
 
@@ -73,26 +191,37 @@ export function CirclePack() {
     );
   }
 
+  const focusDepth = zoomPath.length;
+
   return (
     <div ref={containerRef} className="h-full w-full">
       {packedRoot && dimensions.width > 0 && (
         <svg
           width={dimensions.width}
           height={dimensions.height}
-          onClick={() => selectNode(null)}
-          className="cursor-default"
+          onClick={handleBackgroundClick}
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+          className="cursor-default outline-none"
         >
-          {packedRoot
-            .descendants()
-            .filter((d) => d.depth > 0)
-            .map((d) => (
-              <CircleNode
-                key={d.data.id}
-                node={d}
-                isSelected={d.data.id === selectedNode}
-                onSelect={selectNode}
-              />
-            ))}
+          <g
+            transform={`translate(${transform.tx},${transform.ty}) scale(${transform.k})`}
+          >
+            {packedRoot
+              .descendants()
+              .filter((d) => d.depth > 0)
+              .map((d) => (
+                <CircleNode
+                  key={d.data.id}
+                  node={d}
+                  isSelected={d.data.id === selectedNode}
+                  onSelect={selectNode}
+                  onZoom={handleZoom}
+                  zoomK={transform.k}
+                  focusDepth={focusDepth}
+                />
+              ))}
+          </g>
         </svg>
       )}
     </div>
@@ -107,30 +236,65 @@ function CircleNode({
   node,
   isSelected,
   onSelect,
+  onZoom,
+  zoomK,
+  focusDepth,
 }: {
   node: d3.HierarchyCircularNode<HierarchyDatum>;
   isSelected: boolean;
   onSelect: (id: string | null) => void;
+  onZoom: (id: string) => void;
+  zoomK: number;
+  focusDepth: number;
 }) {
   const { x, y, r } = node;
   const { isLeaf } = node.data;
   const colors = getNodeColor(node.depth, isLeaf);
-  const showLabel = shouldShowLabel(r, isLeaf);
-  const fontSize = Math.max(8, Math.min(r * 0.35, 14));
+
+  // Effective screen-space radius for label visibility
+  const effectiveR = getEffectiveRadius(r, zoomK);
+  const showLabel = shouldShowLabel(effectiveR, isLeaf);
+
+  // Counter-scale font size so it doesn't blow up with the <g> transform
+  const baseFontSize = Math.max(8, Math.min(r * 0.35, 14));
+  const fontSize = baseFontSize / zoomK;
+
+  // Depth-based opacity relative to focus level
+  const opacity = getDepthOpacity(node.depth, focusDepth, isLeaf);
+
+  // Click routing: groups zoom, leaves select
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isLeaf) {
+      onSelect(node.data.id);
+    } else {
+      // Clicking the currently-focused group zooms out
+      if (node.depth === focusDepth) {
+        // Let background handler take care of zoom-out
+        return;
+      }
+      onZoom(node.data.id);
+    }
+  };
+
+  // Counter-scale stroke width
+  const baseStrokeWidth = isSelected ? 3 : 2;
+  const strokeWidth = baseStrokeWidth / zoomK;
+
+  // Counter-scale shadow offset
+  const shadowOffset = 2 / zoomK;
 
   return (
     <g
-      onClick={(e) => {
-        e.stopPropagation();
-        onSelect(node.data.id);
-      }}
+      onClick={handleClick}
       className="cursor-pointer"
+      opacity={opacity}
     >
       {/* Hard shadow for selected node */}
       {isSelected && (
         <circle
-          cx={x + 2}
-          cy={y + 2}
+          cx={x + shadowOffset}
+          cy={y + shadowOffset}
           r={r}
           fill="var(--foreground)"
           opacity={0.15}
@@ -143,10 +307,11 @@ function CircleNode({
         r={r}
         fill={colors.fill}
         stroke={isSelected ? "var(--accent)" : colors.stroke}
-        strokeWidth={isSelected ? 3 : 2}
+        strokeWidth={strokeWidth}
+        vectorEffect="non-scaling-stroke"
         style={{
           transition:
-            "stroke 0.3s var(--ease-bounce), stroke-width 0.3s var(--ease-bounce)",
+            "stroke 0.3s var(--ease-bounce), stroke-width 0.3s var(--ease-bounce), opacity 0.3s ease",
         }}
       />
 
@@ -161,11 +326,38 @@ function CircleNode({
           fontFamily={isLeaf ? "var(--font-mono)" : "var(--font-heading)"}
           pointerEvents="none"
         >
-          {truncateLabel(node.data.name, r, fontSize)}
+          {truncateLabel(node.data.name, effectiveR, baseFontSize)}
         </text>
       )}
     </g>
   );
+}
+
+// ---------------------------------------------------------------------------
+// Depth-based opacity
+// ---------------------------------------------------------------------------
+
+function getDepthOpacity(
+  nodeDepth: number,
+  focusDepth: number,
+  isLeaf: boolean,
+): number {
+  // At root level (focusDepth=0), everything at depth 1+ is fully visible
+  if (focusDepth === 0) return 1;
+
+  // Ancestor circles (above focus) — faded
+  if (nodeDepth < focusDepth) return 0.15;
+
+  // The focused container itself
+  if (nodeDepth === focusDepth && !isLeaf) return 0.3;
+
+  // Children of the focus — fully visible
+  if (nodeDepth === focusDepth + 1) return 1;
+
+  // Deeper descendants — slightly faded
+  if (nodeDepth > focusDepth + 1) return 0.7;
+
+  return 1;
 }
 
 // ---------------------------------------------------------------------------
