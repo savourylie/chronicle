@@ -3,6 +3,7 @@ import { CirclePack } from "@/components/circle-pack";
 import { DetailPanel } from "@/components/detail-panel";
 import { Header } from "@/components/layout/header";
 import { Decorations } from "@/components/layout/decorations";
+import { TimelineMinimap } from "@/components/timeline";
 
 export default function Home() {
   return (
@@ -28,8 +29,10 @@ export default function Home() {
       {/* Timeline slot */}
       <div
         data-slot="timeline"
-        className="relative z-10 h-[120px] border-t-2 border-border"
-      />
+        className="relative z-10 hidden h-[120px] border-t-2 border-border md:block"
+      >
+        <TimelineMinimap />
+      </div>
 
       {/* Detail panel */}
       <DetailPanel />
