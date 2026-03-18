@@ -34,10 +34,10 @@
 022 URL State Sharing ✅ DONE (010)
 023 QA & Polish Pass ✅ DONE (all)
 
-024 Supabase Setup & Migration (001)
+024 Supabase Setup & Migration ✅ DONE (001)
 025 GitHub URL Parsing & Validation (001)
 026 Git Clone Manager (001)
-027 Analysis Types & Data Access Layer (003, 024)
+027 Analysis Types & Data Access Layer (003 ✅, 024 ✅)
  └── 028 GitHub Analysis API Route (021 ✅, 025, 026, 027)
       └── 029 GitHub Analysis Frontend (010, 011, 028)
 ```
@@ -94,9 +94,9 @@
 
 | # | Ticket | Status | Deps |
 |---|--------|--------|------|
-| 024 | [Supabase Setup & Migration](./024-supabase-setup-migration.md) | `not started` | 001 |
+| 024 | [Supabase Setup & Migration](./024-supabase-setup-migration.md) | `done` | 001 ✅ |
 | 025 | [GitHub URL Parsing & Validation](./025-github-url-parsing-validation.md) | `not started` | 001 |
 | 026 | [Git Clone Manager](./026-git-clone-manager.md) | `not started` | 001 |
-| 027 | [Analysis Types & Data Access Layer](./027-analysis-types-data-access.md) | `not started` | 003, 024 |
+| 027 | [Analysis Types & Data Access Layer](./027-analysis-types-data-access.md) | `not started` | 003 ✅, 024 ✅ |
 | 028 | [GitHub Analysis API Route](./028-github-analysis-api-route.md) | `not started` | 021 ✅, 025, 026, 027 |
 | 029 | [GitHub Analysis Frontend](./029-github-analysis-frontend.md) | `not started` | 010 ✅, 011 ✅, 028 |
