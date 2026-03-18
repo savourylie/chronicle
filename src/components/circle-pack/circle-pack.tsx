@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { CircleDashed } from "@phosphor-icons/react";
 
@@ -11,7 +11,7 @@ import {
   type ColorContext,
 } from "@/lib/encoding";
 import { useVisualizationStore } from "@/store/visualization-store";
-import type { ColorEncoding } from "@/types";
+import type { ColorEncoding, CommitGroup, CommitNode } from "@/types";
 import {
   buildD3Hierarchy,
   findPackedNode,
@@ -19,6 +19,8 @@ import {
   type HierarchyDatum,
 } from "./utils";
 import { ColorLegend } from "./color-legend";
+import { CircleTooltip } from "./circle-tooltip";
+import { useHoverTooltip } from "./use-hover-tooltip";
 import {
   computeZoomView,
   createZoomTransition,
@@ -45,6 +47,12 @@ export function CirclePack() {
   const zoomOut = useVisualizationStore((s) => s.zoomOut);
 
   const prefersReducedMotion = useReducedMotion();
+
+  // Hover tooltip
+  const { tooltip, handlers: tooltipHandlers, tooltipRef } = useHoverTooltip({
+    containerRef,
+    zoomPath,
+  });
 
   // Zoom animation refs
   const currentViewRef = useRef<ZoomView | null>(null);
@@ -161,18 +169,20 @@ export function CirclePack() {
 
   const handleZoom = useCallback(
     (nodeId: string) => {
+      tooltipHandlers.onDismiss();
       selectNode(null);
       zoomTo(nodeId);
     },
-    [zoomTo, selectNode],
+    [zoomTo, selectNode, tooltipHandlers],
   );
 
   const handleBackgroundClick = useCallback(() => {
+    tooltipHandlers.onDismiss();
     selectNode(null);
     if (zoomPath.length > 0) {
       zoomOut();
     }
-  }, [selectNode, zoomOut, zoomPath.length]);
+  }, [selectNode, zoomOut, zoomPath.length, tooltipHandlers]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -234,10 +244,21 @@ export function CirclePack() {
                   focusDepth={focusDepth}
                   colorEncoding={colorEncoding}
                   colorContext={colorContext}
+                  onPointerEnter={tooltipHandlers.onPointerEnter}
+                  onPointerMove={tooltipHandlers.onPointerMove}
+                  onPointerLeave={tooltipHandlers.onPointerLeave}
                 />
               ))}
           </g>
         </svg>
+      )}
+      {tooltip && (
+        <CircleTooltip
+          tooltip={tooltip}
+          tooltipRef={tooltipRef}
+          containerWidth={dimensions.width}
+          containerHeight={dimensions.height}
+        />
       )}
       {colorContext && (
         <ColorLegend encoding={colorEncoding} context={colorContext} />
@@ -250,7 +271,7 @@ export function CirclePack() {
 // CircleNode — individual circle + label
 // ---------------------------------------------------------------------------
 
-function CircleNode({
+const CircleNode = React.memo(function CircleNode({
   node,
   isSelected,
   onSelect,
@@ -259,6 +280,9 @@ function CircleNode({
   focusDepth,
   colorEncoding,
   colorContext,
+  onPointerEnter,
+  onPointerMove,
+  onPointerLeave,
 }: {
   node: d3.HierarchyCircularNode<HierarchyDatum>;
   isSelected: boolean;
@@ -268,6 +292,9 @@ function CircleNode({
   focusDepth: number;
   colorEncoding: ColorEncoding;
   colorContext: ColorContext | null;
+  onPointerEnter: (e: React.PointerEvent, node: CommitGroup | CommitNode, isLeaf: boolean) => void;
+  onPointerMove: (e: React.PointerEvent) => void;
+  onPointerLeave: () => void;
 }) {
   const { x, y, r } = node;
   const { isLeaf } = node.data;
@@ -289,6 +316,7 @@ function CircleNode({
   // Click routing: groups zoom, leaves select
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    onPointerLeave();
     if (isLeaf) {
       onSelect(node.data.id);
     } else {
@@ -301,6 +329,10 @@ function CircleNode({
     }
   };
 
+  const handlePointerEnter = (e: React.PointerEvent) => {
+    onPointerEnter(e, node.data.originalNode, isLeaf);
+  };
+
   // Counter-scale stroke width
   const baseStrokeWidth = isSelected ? 3 : 2;
   const strokeWidth = baseStrokeWidth / zoomK;
@@ -311,6 +343,9 @@ function CircleNode({
   return (
     <g
       onClick={handleClick}
+      onPointerEnter={handlePointerEnter}
+      onPointerMove={onPointerMove}
+      onPointerLeave={onPointerLeave}
       className="cursor-pointer"
       opacity={opacity}
     >
@@ -355,7 +390,7 @@ function CircleNode({
       )}
     </g>
   );
-}
+});
 
 // ---------------------------------------------------------------------------
 // Depth-based opacity
