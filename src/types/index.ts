@@ -12,3 +12,11 @@ export type {
   ColorEncoding,
   VisualizationState,
 } from "./visualization";
+
+export type {
+  AnalysisStatus,
+  AnalysisRow,
+  AnalysisInsert,
+  AnalysisUpdate,
+  Database,
+} from "./database";
