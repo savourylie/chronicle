@@ -28,7 +28,7 @@
       │    ├── 014 Color & Size Encoding ✅ DONE (012)
       │    │    └── 020 Encoding Controls Toolbar (002, 014)
       │    ├── 015 Hover Tooltips ✅ DONE (012)
-      │    └── 016 Detail Panel (012, 002)
+      │    └── 016 Detail Panel ✅ DONE (012, 002)
       └── 018 Timeline Minimap (004, 010, 011)
 021 Git Data API Route (009 ✅)
 022 URL State Sharing (010)
@@ -76,7 +76,7 @@
 
 | # | Ticket | Status | Deps |
 |---|--------|--------|------|
-| 016 | [Detail Panel](./016-detail-panel.md) | `not started` | 012 ✅, 002 |
+| 016 | [Detail Panel](./016-detail-panel.md) | `done` | 012 ✅, 002 ✅ |
 | 017 | [Breadcrumb Navigation](./017-breadcrumb-navigation.md) | `not started` | 010 ✅, 013 ✅ |
 | 018 | [Timeline Minimap](./018-timeline-minimap.md) | `not started` | 004 ✅, 010 ✅, 011 ✅ |
 | 019 | [Search & Highlight](./019-search-highlight.md) | `not started` | 010 ✅, 012 ✅, 013 ✅ |

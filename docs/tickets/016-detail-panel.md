@@ -1,7 +1,7 @@
 # Ticket 016: Detail Panel (Commit & Group)
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 4: Interactive Features (M2 part 2)
@@ -51,12 +51,12 @@ Implement a slide-out detail panel that appears when a commit or group is select
 - `src/components/detail-panel/index.ts` — re-export
 
 ## Acceptance Criteria
-- [ ] Clicking a circle opens the detail panel with correct data
-- [ ] Panel shows different content for commits vs. groups
-- [ ] Panel slides in/out smoothly
-- [ ] Close button and click-outside both dismiss the panel
-- [ ] Panel is scrollable when content overflows
-- [ ] Styling matches DESIGN.md (borders, shadows, typography, icons)
+- [x] Clicking a circle opens the detail panel with correct data
+- [x] Panel shows different content for commits vs. groups
+- [x] Panel slides in/out smoothly
+- [x] Close button and click-outside both dismiss the panel
+- [x] Panel is scrollable when content overflows
+- [x] Styling matches DESIGN.md (borders, shadows, typography, icons)
 
 ## Notes
 - PRD Section 4.4 defines the full detail panel content
