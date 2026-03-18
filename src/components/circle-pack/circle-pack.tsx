@@ -12,6 +12,7 @@ import {
 } from "@/lib/encoding";
 import { useVisualizationStore } from "@/store/visualization-store";
 import type { ColorEncoding, CommitGroup, CommitNode } from "@/types";
+import { computeMatchSets } from "@/lib/search";
 import {
   buildD3Hierarchy,
   findPackedNode,
@@ -45,6 +46,7 @@ export function CirclePack() {
   const zoomPath = useVisualizationStore((s) => s.zoomPath);
   const zoomTo = useVisualizationStore((s) => s.zoomTo);
   const zoomOut = useVisualizationStore((s) => s.zoomOut);
+  const searchQuery = useVisualizationStore((s) => s.filters.searchQuery);
 
   const prefersReducedMotion = useReducedMotion();
 
@@ -105,6 +107,14 @@ export function CirclePack() {
     () => (root ? buildColorContext(root) : null),
     [root],
   );
+
+  // Pre-compute search match data
+  const searchData = useMemo(() => {
+    if (!root || !searchQuery) return null;
+    return computeMatchSets(root, searchQuery);
+  }, [root, searchQuery]);
+
+  const isSearchActive = !!searchData;
 
   // --- Zoom animation driven by zoomPath changes ---
   useEffect(() => {
@@ -227,6 +237,11 @@ export function CirclePack() {
           onKeyDown={handleKeyDown}
           className="cursor-default outline-none"
         >
+          <defs>
+            <filter id="search-glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="var(--accent)" floodOpacity="0.6" />
+            </filter>
+          </defs>
           <g
             transform={`translate(${transform.tx},${transform.ty}) scale(${transform.k})`}
           >
@@ -244,6 +259,19 @@ export function CirclePack() {
                   focusDepth={focusDepth}
                   colorEncoding={colorEncoding}
                   colorContext={colorContext}
+                  isSearchActive={isSearchActive}
+                  isSearchMatch={
+                    isSearchActive
+                      ? d.data.isLeaf
+                        ? searchData!.matchIds.has(d.data.id)
+                        : searchData!.groupCounts.has(d.data.id)
+                      : false
+                  }
+                  searchMatchCount={
+                    isSearchActive && !d.data.isLeaf
+                      ? searchData!.groupCounts.get(d.data.id) ?? 0
+                      : 0
+                  }
                   onPointerEnter={tooltipHandlers.onPointerEnter}
                   onPointerMove={tooltipHandlers.onPointerMove}
                   onPointerLeave={tooltipHandlers.onPointerLeave}
@@ -280,6 +308,9 @@ const CircleNode = React.memo(function CircleNode({
   focusDepth,
   colorEncoding,
   colorContext,
+  isSearchActive,
+  isSearchMatch,
+  searchMatchCount,
   onPointerEnter,
   onPointerMove,
   onPointerLeave,
@@ -292,6 +323,9 @@ const CircleNode = React.memo(function CircleNode({
   focusDepth: number;
   colorEncoding: ColorEncoding;
   colorContext: ColorContext | null;
+  isSearchActive: boolean;
+  isSearchMatch: boolean;
+  searchMatchCount: number;
   onPointerEnter: (e: React.PointerEvent, node: CommitGroup | CommitNode, isLeaf: boolean) => void;
   onPointerMove: (e: React.PointerEvent) => void;
   onPointerLeave: () => void;
@@ -310,8 +344,24 @@ const CircleNode = React.memo(function CircleNode({
   const baseFontSize = Math.max(8, Math.min(r * 0.35, 14));
   const fontSize = baseFontSize / zoomK;
 
-  // Depth-based opacity relative to focus level
-  const opacity = getDepthOpacity(node.depth, focusDepth, isLeaf);
+  // Depth-based opacity relative to focus level, modified by search
+  let opacity = getDepthOpacity(node.depth, focusDepth, isLeaf);
+  if (isSearchActive) {
+    if (isSearchMatch) {
+      opacity = 1;
+    } else {
+      opacity = 0.15;
+    }
+  }
+
+  // Search-match stroke overrides
+  const searchStroke = isSearchActive && isSearchMatch && isLeaf;
+
+  // Badge dimensions (counter-scaled)
+  const badgeFontSize = 10 / zoomK;
+  const badgePadX = 4 / zoomK;
+  const badgePadY = 2 / zoomK;
+  const badgeR = 3 / zoomK;
 
   // Click routing: groups zoom, leaves select
   const handleClick = (e: React.MouseEvent) => {
@@ -365,14 +415,58 @@ const CircleNode = React.memo(function CircleNode({
         cy={y}
         r={r}
         fill={colors.fill}
-        stroke={isSelected ? "var(--accent)" : colors.stroke}
-        strokeWidth={strokeWidth}
+        stroke={
+          searchStroke
+            ? "var(--accent)"
+            : isSelected
+              ? "var(--accent)"
+              : colors.stroke
+        }
+        strokeWidth={searchStroke ? (3 / zoomK) : strokeWidth}
         vectorEffect="non-scaling-stroke"
+        filter={searchStroke ? "url(#search-glow)" : undefined}
         style={{
           transition:
             "fill 0.4s ease, stroke 0.3s var(--ease-bounce), stroke-width 0.3s var(--ease-bounce), opacity 0.3s ease",
         }}
       />
+
+      {/* Search match count badge on groups */}
+      {isSearchActive && searchMatchCount > 0 && !isLeaf && (
+        <g>
+          <rect
+            x={x + r * 0.5 - badgePadX}
+            y={y - r * 0.85 - badgePadY - badgeFontSize}
+            width={
+              String(searchMatchCount).length * badgeFontSize * 0.65 +
+              badgePadX * 2
+            }
+            height={badgeFontSize + badgePadY * 2}
+            rx={badgeR}
+            fill="var(--accent)"
+          />
+          <text
+            x={
+              x +
+              r * 0.5 -
+              badgePadX +
+              (String(searchMatchCount).length * badgeFontSize * 0.65 +
+                badgePadX * 2) /
+                2
+            }
+            y={y - r * 0.85 - badgePadY - badgeFontSize + (badgeFontSize + badgePadY * 2) / 2}
+            dy="0.35em"
+            textAnchor="middle"
+            fontSize={badgeFontSize}
+            fill="var(--accent-foreground)"
+            fontFamily="var(--font-heading)"
+            fontWeight="bold"
+            pointerEvents="none"
+          >
+            {searchMatchCount}
+          </text>
+        </g>
+      )}
 
       {showLabel && (
         <text

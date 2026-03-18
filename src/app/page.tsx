@@ -3,6 +3,7 @@ import { CirclePack } from "@/components/circle-pack";
 import { DetailPanel } from "@/components/detail-panel";
 import { Header } from "@/components/layout/header";
 import { Decorations } from "@/components/layout/decorations";
+import { Search } from "@/components/search";
 import { TimelineMinimap } from "@/components/timeline";
 
 export default function Home() {
@@ -12,7 +13,9 @@ export default function Home() {
 
       {/* Header */}
       <div data-slot="header" className="relative z-10">
-        <Header />
+        <Header>
+          <Search />
+        </Header>
       </div>
 
       {/* Visualization area */}
