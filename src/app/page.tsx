@@ -1,6 +1,7 @@
 import { Breadcrumb } from "@/components/breadcrumb";
 import { CirclePack } from "@/components/circle-pack";
 import { DetailPanel } from "@/components/detail-panel";
+import { EncodingToolbar } from "@/components/encoding-toolbar";
 import { Header } from "@/components/layout/header";
 import { Decorations } from "@/components/layout/decorations";
 import { Search } from "@/components/search";
@@ -14,6 +15,7 @@ export default function Home() {
       {/* Header */}
       <div data-slot="header" className="relative z-10">
         <Header>
+          <EncodingToolbar />
           <Search />
         </Header>
       </div>
