@@ -1,7 +1,7 @@
 # Ticket 020: Encoding Controls Toolbar
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 5: Integration & Polish
@@ -13,31 +13,31 @@ Phase 5: Integration & Polish
 Build a toolbar UI that lets users toggle the color and size encoding of the visualization. This is the user-facing control for the encoding logic implemented in ticket 014.
 
 ## Requirements
-- [ ] Toolbar positioned at the top of the visualization area (or in the header):
+- [x] Toolbar positioned at the top of the visualization area (or in the header):
   - Size encoding selector: dropdown or segmented control
     - Options: "Lines Changed", "File Count", "Commit Count"
   - Color encoding selector: dropdown or segmented control
     - Options: "Type", "Author", "Recency", "Churn"
-- [ ] Update Zustand store on selection:
+- [x] Update Zustand store on selection:
   - `setEncoding("size", value)` and `setEncoding("color", value)`
-- [ ] Visual styling per DESIGN.md:
+- [x] Visual styling per DESIGN.md:
   - Segmented controls with pill shape (`radius-full`)
   - 2px borders, hard shadow on active segment
   - Accent color for active selection
   - Phosphor icons for each option (Palette for color, Resize for size)
   - Plus Jakarta Sans labels
-- [ ] Show current encoding in the button/segment as active state
-- [ ] Responsive: collapse to a compact icon-only mode on narrow screens
+- [x] Show current encoding in the button/segment as active state
+- [x] Responsive: collapse to a compact icon-only mode on narrow screens
 
 ## Files to Create/Modify
 - `src/components/toolbar.tsx` — toolbar with encoding controls
 
 ## Acceptance Criteria
-- [ ] Clicking "File Count" in size selector changes circle sizes in the visualization
-- [ ] Clicking "Author" in color selector changes circle colors
-- [ ] Active selection is visually distinguished (accent color)
-- [ ] Toolbar matches DESIGN.md styling (borders, shadows, pill shapes)
-- [ ] Changes are reflected immediately in the visualization
+- [x] Clicking "File Count" in size selector changes circle sizes in the visualization
+- [x] Clicking "Author" in color selector changes circle colors
+- [x] Active selection is visually distinguished (accent color)
+- [x] Toolbar matches DESIGN.md styling (borders, shadows, pill shapes)
+- [x] Changes are reflected immediately in the visualization
 
 ## Notes
 - PRD Section 4.2: "Size encoding = Lines changed, files touched, or commit count (user-configurable)"

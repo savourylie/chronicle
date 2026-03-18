@@ -26,7 +26,7 @@
       │    │    ├── 017 Breadcrumb Navigation ✅ DONE (010, 013)
       │    │    └── 019 Search & Highlight ✅ DONE (010, 012, 013)
       │    ├── 014 Color & Size Encoding ✅ DONE (012)
-      │    │    └── 020 Encoding Controls Toolbar (002, 014)
+      │    │    └── 020 Encoding Controls Toolbar ✅ DONE (002, 014)
       │    ├── 015 Hover Tooltips ✅ DONE (012)
       │    └── 016 Detail Panel ✅ DONE (012, 002)
       └── 018 Timeline Minimap ✅ DONE (004, 010, 011)
@@ -85,7 +85,7 @@
 
 | # | Ticket | Status | Deps |
 |---|--------|--------|------|
-| 020 | [Encoding Controls Toolbar](./020-encoding-controls-toolbar.md) | `not started` | 002, 014 ✅ |
+| 020 | [Encoding Controls Toolbar](./020-encoding-controls-toolbar.md) | `done` | 002 ✅, 014 ✅ |
 | 021 | [Git Data API Route](./021-git-data-api-route.md) | `not started` | 009 ✅ |
 | 022 | [URL State Sharing](./022-url-state-sharing.md) | `not started` | 010 ✅ |
 | 023 | [QA & Polish Pass](./023-qa-polish-pass.md) | `not started` | all |
