@@ -1,3 +1,4 @@
+import { Breadcrumb } from "@/components/breadcrumb";
 import { CirclePack } from "@/components/circle-pack";
 import { DetailPanel } from "@/components/detail-panel";
 import { Header } from "@/components/layout/header";
@@ -16,9 +17,12 @@ export default function Home() {
       {/* Visualization area */}
       <main
         data-slot="visualization"
-        className="relative z-10 min-h-0 flex-grow"
+        className="relative z-10 min-h-0 flex flex-col"
       >
-        <CirclePack />
+        <Breadcrumb />
+        <div className="relative min-h-0 flex-1">
+          <CirclePack />
+        </div>
       </main>
 
       {/* Timeline slot */}
