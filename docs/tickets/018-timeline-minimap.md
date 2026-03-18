@@ -1,7 +1,7 @@
 # Ticket 018: Timeline Minimap
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 4: Interactive Features (M2 part 2)
@@ -39,12 +39,12 @@ Implement a horizontal timeline minimap at the bottom of the visualization. Show
 - `src/components/timeline/index.ts` — re-export
 
 ## Acceptance Criteria
-- [ ] Timeline shows commit density across the full repo history
-- [ ] Current zoom focus is highlighted on the timeline
-- [ ] Brush-selecting a range filters the main visualization
-- [ ] Clearing the brush removes the date filter
-- [ ] Timeline updates when zoom changes
-- [ ] Renders 10k commits in under 500ms
+- [x] Timeline shows commit density across the full repo history
+- [x] Current zoom focus is highlighted on the timeline
+- [x] Brush-selecting a range filters the main visualization
+- [x] Clearing the brush removes the date filter
+- [x] Timeline updates when zoom changes
+- [x] Renders 10k commits in under 500ms
 
 ## Notes
 - PRD Section 4.3 defines the timeline requirements
