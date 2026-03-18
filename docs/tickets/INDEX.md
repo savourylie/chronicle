@@ -22,7 +22,7 @@
  │    └── 010 Zustand Visualization Store ✅ DONE (003)
  └── 011 App Layout Shell ✅ DONE (002)
       ├── 012 D3 Circle Packing – Static Render ✅ DONE (004, 010, 011)
-      │    ├── 013 Circle Packing Zoom Transitions (012)
+      │    ├── 013 Circle Packing Zoom Transitions ✅ DONE (012)
       │    │    ├── 017 Breadcrumb Navigation (010, 013)
       │    │    └── 019 Search & Highlight (010, 012, 013)
       │    ├── 014 Color & Size Encoding (012)
@@ -68,7 +68,7 @@
 | 010 | [Zustand Visualization Store](./010-zustand-visualization-store.md) | `done` | 003 ✅ |
 | 011 | [App Layout Shell](./011-app-layout-shell.md) | `done` | 002 ✅ |
 | 012 | [D3 Circle Packing – Static Render](./012-d3-circle-packing-static.md) | `done` | 004 ✅, 010 ✅, 011 ✅ |
-| 013 | [Circle Packing Zoom Transitions](./013-circle-packing-zoom-transitions.md) | `not started` | 012 ✅ |
+| 013 | [Circle Packing Zoom Transitions](./013-circle-packing-zoom-transitions.md) | `done` | 012 ✅ |
 | 014 | [Color & Size Encoding](./014-color-size-encoding.md) | `not started` | 012 ✅ |
 | 015 | [Hover Tooltips](./015-hover-tooltips.md) | `not started` | 012 ✅ |
 
@@ -77,9 +77,9 @@
 | # | Ticket | Status | Deps |
 |---|--------|--------|------|
 | 016 | [Detail Panel](./016-detail-panel.md) | `not started` | 012 ✅, 002 |
-| 017 | [Breadcrumb Navigation](./017-breadcrumb-navigation.md) | `not started` | 010 ✅, 013 |
+| 017 | [Breadcrumb Navigation](./017-breadcrumb-navigation.md) | `not started` | 010 ✅, 013 ✅ |
 | 018 | [Timeline Minimap](./018-timeline-minimap.md) | `not started` | 004 ✅, 010 ✅, 011 ✅ |
-| 019 | [Search & Highlight](./019-search-highlight.md) | `not started` | 010 ✅, 012 ✅, 013 |
+| 019 | [Search & Highlight](./019-search-highlight.md) | `not started` | 010 ✅, 012 ✅, 013 ✅ |
 
 ## Phase 5: Integration & Polish
 

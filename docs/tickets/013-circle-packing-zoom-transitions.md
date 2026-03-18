@@ -1,7 +1,7 @@
 # Ticket 013: Circle Packing Zoom Transitions
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 3: Core Visualization (M2 part 1)
@@ -13,21 +13,21 @@ Phase 3: Core Visualization (M2 part 1)
 Add click-to-zoom interaction to the circle packing visualization. Clicking a group circle smoothly zooms into it, revealing its children. Clicking outside or on the background zooms back out. This is the core navigation model — "Google Maps for your codebase."
 
 ## Requirements
-- [ ] Click a group circle to zoom in:
+- [x] Click a group circle to zoom in:
   - Smooth animated transition (scale + translate) to focus on the clicked group
   - Children of the focused group become the visible circles
   - Parent circles fade or scale away
   - Transition duration: ~750ms with easing
-- [ ] Click background or current focus to zoom out one level
-- [ ] Update Zustand store on zoom:
+- [x] Click background or current focus to zoom out one level
+- [x] Update Zustand store on zoom:
   - `zoomTo(nodeId)` when zooming in
   - `zoomOut()` when zooming out
-- [ ] Visual feedback during transitions:
+- [x] Visual feedback during transitions:
   - Circles smoothly interpolate position and size
   - Labels fade in/out during transitions
   - No visual artifacts or flickering
-- [ ] Support deep zoom: zoom into level 0 → level 1 → level 2 → individual commits
-- [ ] Keyboard support:
+- [x] Support deep zoom: zoom into level 0 → level 1 → level 2 → individual commits
+- [x] Keyboard support:
   - Escape to zoom out one level
   - Escape at root level: no-op
 
@@ -36,12 +36,12 @@ Add click-to-zoom interaction to the circle packing visualization. Clicking a gr
 - `src/components/circle-pack/zoom.ts` — zoom transition logic
 
 ## Acceptance Criteria
-- [ ] Clicking a group circle triggers a smooth zoom animation
-- [ ] After zoom, children are clearly visible and interactive
-- [ ] Clicking background zooms out one level smoothly
-- [ ] Zoom state is reflected in the Zustand store (`zoomPath`)
-- [ ] Transitions complete in under 300ms (PRD success metric)
-- [ ] No visual glitches during rapid click sequences
+- [x] Clicking a group circle triggers a smooth zoom animation
+- [x] After zoom, children are clearly visible and interactive
+- [x] Clicking background zooms out one level smoothly
+- [x] Zoom state is reflected in the Zustand store (`zoomPath`)
+- [x] Transitions complete in under 300ms (PRD success metric)
+- [x] No visual glitches during rapid click sequences
 
 ## Notes
 - Reference the D3 zoomable circle packing pattern for transition math
