@@ -1,7 +1,7 @@
 # Ticket 017: Breadcrumb Navigation
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 4: Interactive Features (M2 part 2)
@@ -36,12 +36,12 @@ Display a clickable breadcrumb trail showing the current zoom path. Users can cl
 - `src/components/breadcrumb.tsx` — breadcrumb navigation component
 
 ## Acceptance Criteria
-- [ ] Breadcrumb shows "All" when at root level
-- [ ] Zooming in adds segments: "All > Epoch Name > Chapter Name"
-- [ ] Clicking "All" returns to root view
-- [ ] Clicking any ancestor zooms to that level
-- [ ] Breadcrumb updates in sync with zoom transitions
-- [ ] Responsive: truncates gracefully on small screens
+- [x] Breadcrumb shows "All" when at root level
+- [x] Zooming in adds segments: "All > Epoch Name > Chapter Name"
+- [x] Clicking "All" returns to root view
+- [x] Clicking any ancestor zooms to that level
+- [x] Breadcrumb updates in sync with zoom transitions
+- [x] Responsive: truncates gracefully on small screens
 
 ## Notes
 - PRD Section 4.2: "Breadcrumb navigation to track and jump between zoom levels"
