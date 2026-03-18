@@ -16,19 +16,6 @@ import type { UrlState } from "@/lib/url-state";
 
 type TreeNode = CommitGroup | CommitNode;
 
-/** Recursive DFS lookup by group ID or commit hash. */
-function findNodeById(node: TreeNode, id: string): TreeNode | null {
-  if (isCommitNode(node)) {
-    return node.hash === id ? node : null;
-  }
-  if (node.id === id) return node;
-  for (const child of node.children) {
-    const found = findNodeById(child, id);
-    if (found) return found;
-  }
-  return null;
-}
-
 /** Returns group-ID path (excluding root) from root to target group, or null. */
 function findGroupPath(root: CommitGroup, groupId: string): string[] | null {
   if (root.id === groupId) return [];
@@ -121,6 +108,7 @@ function filterTree(
 export interface VisualizationStoreState {
   // State
   root: CommitGroup | null;
+  _nodeMap: Map<string, TreeNode>;
   zoomPath: string[];
   selectedNode: string | null;
   filters: {
@@ -166,6 +154,7 @@ export const useVisualizationStore = create<VisualizationStoreState>()(
   subscribeWithSelector((set, get) => ({
     // ---- State ----
     root: null,
+    _nodeMap: new Map(),
     zoomPath: [],
     selectedNode: null,
     filters: {},
@@ -176,10 +165,22 @@ export const useVisualizationStore = create<VisualizationStoreState>()(
 
     // ---- Actions ----
 
-    setRoot: (data) => set({ root: data, zoomPath: [], selectedNode: null }),
+    setRoot: (data) => {
+      const map = new Map<string, TreeNode>();
+      function walk(node: TreeNode) {
+        if (isCommitNode(node)) {
+          map.set(node.hash, node);
+        } else {
+          map.set(node.id, node);
+          for (const child of node.children) walk(child);
+        }
+      }
+      walk(data);
+      set({ root: data, _nodeMap: map, zoomPath: [], selectedNode: null });
+    },
 
     resetRoot: () =>
-      set({ root: null, zoomPath: [], selectedNode: null, filters: {} }),
+      set({ root: null, _nodeMap: new Map(), zoomPath: [], selectedNode: null, filters: {} }),
 
     zoomTo: (nodeId) => {
       const { root } = get();
@@ -226,7 +227,7 @@ export const useVisualizationStore = create<VisualizationStoreState>()(
       if (!root) return;
 
       // Validate zoom path — walk each segment, truncate at first invalid one
-      let zoomPath: string[] = [];
+      const zoomPath: string[] = [];
       if (urlState.zoom && urlState.zoom.length > 0) {
         let current: CommitGroup = root;
         for (const id of urlState.zoom) {
@@ -250,7 +251,7 @@ export const useVisualizationStore = create<VisualizationStoreState>()(
 
       // Validate selected node
       const selectedNode =
-        urlState.selected && findNodeById(root, urlState.selected)
+        urlState.selected && get()._nodeMap.has(urlState.selected)
           ? urlState.selected
           : null;
 
@@ -300,9 +301,9 @@ export const useVisualizationStore = create<VisualizationStoreState>()(
     },
 
     selectedNodeData: () => {
-      const { root, selectedNode } = get();
-      if (!root || !selectedNode) return null;
-      return findNodeById(root, selectedNode);
+      const { selectedNode, _nodeMap } = get();
+      if (!selectedNode) return null;
+      return _nodeMap.get(selectedNode) ?? null;
     },
   }))
 );

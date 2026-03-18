@@ -34,17 +34,16 @@ export function Search() {
     return () => clearTimeout(timer);
   }, [query, setFilter]);
 
-  // Compute matching commits
-  const matches = useMemo(() => {
-    if (!root || !debouncedQuery) return [];
-    return collectSearchMatches(root, debouncedQuery)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 8);
-  }, [root, debouncedQuery]);
-
-  const totalMatches = useMemo(() => {
-    if (!root || !debouncedQuery) return 0;
-    return collectSearchMatches(root, debouncedQuery).length;
+  // Compute matching commits (single tree walk)
+  const { matches, totalMatches } = useMemo(() => {
+    if (!root || !debouncedQuery) return { matches: [], totalMatches: 0 };
+    const all = collectSearchMatches(root, debouncedQuery);
+    return {
+      matches: all
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, 8),
+      totalMatches: all.length,
+    };
   }, [root, debouncedQuery]);
 
   // Derive dropdown visibility

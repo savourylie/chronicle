@@ -49,7 +49,7 @@ export function RepoInput() {
     <div className="flex h-full w-full flex-col items-center justify-center gap-8 px-4">
       {/* Title area */}
       <div className="flex flex-col items-center gap-3">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-border bg-accent/10">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-border bg-accent/10">
           <FolderOpen size={32} weight="duotone" className="text-accent" />
         </div>
         <h2 className="font-heading text-2xl font-bold">
@@ -83,10 +83,10 @@ export function RepoInput() {
             disabled={mutation.isPending || !path.trim()}
             className="flex h-11 items-center gap-2 rounded-full border-2 border-border bg-accent px-5
               font-heading text-sm font-bold text-accent-foreground
-              shadow-[3px_3px_0_0_var(--border)]
+              shadow-hard
               transition-all
-              hover:shadow-[1px_1px_0_0_var(--border)] hover:translate-x-[2px] hover:translate-y-[2px]
-              active:shadow-none active:translate-x-[3px] active:translate-y-[3px]
+              hover:shadow-hard-active hover:-translate-x-[2px] hover:-translate-y-[2px]
+              active:shadow-none active:translate-x-[4px] active:translate-y-[4px]
               disabled:pointer-events-none disabled:opacity-50"
           >
             {mutation.isPending ? (
@@ -100,7 +100,7 @@ export function RepoInput() {
 
         {/* Error message */}
         {mutation.isError && (
-          <p className="rounded-lg border-2 border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="rounded-lg border-2 border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
             {mutation.error.message}
           </p>
         )}

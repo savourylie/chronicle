@@ -21,6 +21,8 @@ export interface ColorContext {
   fileChurnMap: Map<string, number>;
   maxChurn: number;
   groupAggregates: WeakMap<CommitGroup, GroupAggregates>;
+  recencyScale: d3.ScaleSequential<string>;
+  churnScale: d3.ScaleSequential<string>;
 }
 
 // ---------------------------------------------------------------------------
@@ -132,6 +134,8 @@ export function buildColorContext(root: CommitGroup): ColorContext {
     fileChurnMap,
     maxChurn,
     groupAggregates,
+    recencyScale: d3.scaleSequential(d3.interpolateCool).domain([minDate, maxDate]),
+    churnScale: d3.scaleSequential(d3.interpolateReds).domain([0, maxChurn]),
   };
 }
 
@@ -184,10 +188,7 @@ function leafColor(
       return { fill: color, stroke: color };
     }
     case "recency": {
-      const scale = d3
-        .scaleSequential(d3.interpolateCool)
-        .domain(ctx.dateRange);
-      const color = scale(new Date(commit.date).getTime());
+      const color = ctx.recencyScale(new Date(commit.date).getTime());
       return { fill: color, stroke: color };
     }
     case "churn": {
@@ -199,10 +200,7 @@ function leafColor(
         }
         avgChurn = total / commit.filesChanged.length;
       }
-      const scale = d3
-        .scaleSequential(d3.interpolateReds)
-        .domain([0, ctx.maxChurn]);
-      const color = scale(avgChurn);
+      const color = ctx.churnScale(avgChurn);
       return { fill: color, stroke: color };
     }
   }
@@ -218,18 +216,10 @@ function groupRawColor(
       return TYPE_COLOR_MAP[agg.dominantType] ?? TYPE_COLOR_MAP.other;
     case "author":
       return hashAuthorColor(agg.dominantAuthor);
-    case "recency": {
-      const scale = d3
-        .scaleSequential(d3.interpolateCool)
-        .domain(ctx.dateRange);
-      return scale(agg.avgDate);
-    }
-    case "churn": {
-      const scale = d3
-        .scaleSequential(d3.interpolateReds)
-        .domain([0, ctx.maxChurn]);
-      return scale(agg.avgChurn);
-    }
+    case "recency":
+      return ctx.recencyScale(agg.avgDate);
+    case "churn":
+      return ctx.churnScale(agg.avgChurn);
   }
 }
 

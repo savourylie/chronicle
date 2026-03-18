@@ -383,8 +383,15 @@ const CircleNode = React.memo(function CircleNode({
   // Counter-scale shadow offset
   const shadowOffset = 2 / zoomK;
 
+  const groupCommitCount = !isLeaf ? (node.data.originalNode as CommitGroup).metadata.commitCount : 0;
+  const ariaLabel = isLeaf
+    ? (node.data.originalNode as CommitNode).message
+    : `${node.data.name}, ${groupCommitCount} commit${groupCommitCount !== 1 ? "s" : ""}`;
+
   return (
     <g
+      role="button"
+      aria-label={ariaLabel}
       onClick={handleClick}
       onPointerEnter={handlePointerEnter}
       onPointerMove={onPointerMove}

@@ -64,8 +64,8 @@ export function GroupDetail({
         <span className="text-muted-foreground">
           {metadata.commitCount} commit{metadata.commitCount !== 1 ? "s" : ""}
         </span>
-        <span className="font-mono text-green-600">+{metadata.totalInsertions}</span>
-        <span className="font-mono text-red-500">-{metadata.totalDeletions}</span>
+        <span className="font-mono text-diff-add">+{metadata.totalInsertions}</span>
+        <span className="font-mono text-diff-remove">-{metadata.totalDeletions}</span>
       </div>
 
       {/* Contributors */}

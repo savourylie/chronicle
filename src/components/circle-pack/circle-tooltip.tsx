@@ -108,8 +108,8 @@ function LeafContent({ node }: { node: CommitNode }) {
         </span>
         {totalChanges > 0 && (
           <>
-            <span className="font-mono text-green-600">+{node.insertions}</span>
-            <span className="font-mono text-red-500">-{node.deletions}</span>
+            <span className="font-mono text-diff-add">+{node.insertions}</span>
+            <span className="font-mono text-diff-remove">-{node.deletions}</span>
           </>
         )}
       </div>
