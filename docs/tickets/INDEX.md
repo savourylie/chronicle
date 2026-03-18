@@ -25,7 +25,7 @@
       │    ├── 013 Circle Packing Zoom Transitions ✅ DONE (012)
       │    │    ├── 017 Breadcrumb Navigation (010, 013)
       │    │    └── 019 Search & Highlight (010, 012, 013)
-      │    ├── 014 Color & Size Encoding (012)
+      │    ├── 014 Color & Size Encoding ✅ DONE (012)
       │    │    └── 020 Encoding Controls Toolbar (002, 014)
       │    ├── 015 Hover Tooltips (012)
       │    └── 016 Detail Panel (012, 002)
@@ -69,7 +69,7 @@
 | 011 | [App Layout Shell](./011-app-layout-shell.md) | `done` | 002 ✅ |
 | 012 | [D3 Circle Packing – Static Render](./012-d3-circle-packing-static.md) | `done` | 004 ✅, 010 ✅, 011 ✅ |
 | 013 | [Circle Packing Zoom Transitions](./013-circle-packing-zoom-transitions.md) | `done` | 012 ✅ |
-| 014 | [Color & Size Encoding](./014-color-size-encoding.md) | `not started` | 012 ✅ |
+| 014 | [Color & Size Encoding](./014-color-size-encoding.md) | `done` | 012 ✅ |
 | 015 | [Hover Tooltips](./015-hover-tooltips.md) | `not started` | 012 ✅ |
 
 ## Phase 4: Interactive Features (M2 part 2)
@@ -85,7 +85,7 @@
 
 | # | Ticket | Status | Deps |
 |---|--------|--------|------|
-| 020 | [Encoding Controls Toolbar](./020-encoding-controls-toolbar.md) | `not started` | 002, 014 |
+| 020 | [Encoding Controls Toolbar](./020-encoding-controls-toolbar.md) | `not started` | 002, 014 ✅ |
 | 021 | [Git Data API Route](./021-git-data-api-route.md) | `not started` | 009 ✅ |
 | 022 | [URL State Sharing](./022-url-state-sharing.md) | `not started` | 010 ✅ |
 | 023 | [QA & Polish Pass](./023-qa-polish-pass.md) | `not started` | all |
