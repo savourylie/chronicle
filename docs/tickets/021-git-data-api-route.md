@@ -1,7 +1,7 @@
 # Ticket 021: Git Data API Route
 
 ## Status
-`not started`
+`done`
 
 ## Phase
 Phase 5: Integration & Polish
@@ -13,23 +13,23 @@ Phase 5: Integration & Polish
 Create a Next.js API route that accepts a local repository path, runs the full data pipeline (git parsing → conventional commits → file clustering → time sessions → hierarchy building), and returns the complete `CommitGroup` tree as JSON. This wires the backend pipeline to the frontend.
 
 ## Requirements
-- [ ] Create API route at `POST /api/analyze`:
+- [x] Create API route at `POST /api/analyze`:
   - Accept request body: `{ repoPath: string, options?: { maxCommits?, since?, until?, branch? } }`
   - Run the pipeline: git-parser → conventional-parser → file-clustering → time-session → hierarchy-builder
   - Return the `CommitGroup` root as JSON response
-- [ ] Input validation:
+- [x] Input validation:
   - Verify `repoPath` exists and is a git repository
   - Sanitize path to prevent directory traversal attacks
   - Validate optional parameters
-- [ ] Error handling:
+- [x] Error handling:
   - 400 for invalid input (not a git repo, missing path)
   - 500 for pipeline failures (git command failed, parsing error)
   - Return descriptive error messages
-- [ ] Performance considerations:
+- [x] Performance considerations:
   - Stream processing for large repos where possible
   - Respect `maxCommits` limit
   - Return timing metadata: `{ data: CommitGroup, meta: { commitCount, pipelineMs } }`
-- [ ] Connect frontend to API:
+- [x] Connect frontend to API:
   - Use TanStack Query to fetch from `/api/analyze`
   - Load result into Zustand store via `setRoot()`
   - Show loading state during analysis
@@ -40,12 +40,12 @@ Create a Next.js API route that accepts a local repository path, runs the full d
 - `src/app/page.tsx` — add repo path input and TanStack Query fetch
 
 ## Acceptance Criteria
-- [ ] `POST /api/analyze` with a valid repo path returns a `CommitGroup` tree
-- [ ] The visualization renders data from a real git repository
-- [ ] Invalid paths return 400 with a helpful error message
-- [ ] Large repos (5k+ commits) complete within 10 seconds
-- [ ] Path traversal attempts are rejected
-- [ ] Loading state is shown while the pipeline runs
+- [x] `POST /api/analyze` with a valid repo path returns a `CommitGroup` tree
+- [x] The visualization renders data from a real git repository
+- [x] Invalid paths return 400 with a helpful error message
+- [x] Large repos (5k+ commits) complete within 10 seconds
+- [x] Path traversal attempts are rejected
+- [x] Loading state is shown while the pipeline runs
 
 ## Notes
 - This route runs server-side only — git operations happen on the server
