@@ -135,6 +135,7 @@ export interface VisualizationStoreState {
 
   // Actions
   setRoot: (data: CommitGroup) => void;
+  resetRoot: () => void;
   zoomTo: (nodeId: string) => void;
   zoomOut: () => void;
   zoomToRoot: () => void;
@@ -174,6 +175,9 @@ export const useVisualizationStore = create<VisualizationStoreState>()(
     // ---- Actions ----
 
     setRoot: (data) => set({ root: data, zoomPath: [], selectedNode: null }),
+
+    resetRoot: () =>
+      set({ root: null, zoomPath: [], selectedNode: null, filters: {} }),
 
     zoomTo: (nodeId) => {
       const { root } = get();

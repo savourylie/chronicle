@@ -4,8 +4,10 @@ import { DetailPanel } from "@/components/detail-panel";
 import { EncodingToolbar } from "@/components/encoding-toolbar";
 import { Header } from "@/components/layout/header";
 import { Decorations } from "@/components/layout/decorations";
+import { RepoInput } from "@/components/repo-input";
 import { Search } from "@/components/search";
 import { TimelineMinimap } from "@/components/timeline";
+import { VisualizationGate } from "@/components/visualization-gate";
 
 export default function Home() {
   return (
@@ -20,27 +22,36 @@ export default function Home() {
         </Header>
       </div>
 
-      {/* Visualization area */}
-      <main
-        data-slot="visualization"
-        className="relative z-10 min-h-0 flex flex-col"
+      {/* Main content — repo input or visualization */}
+      <VisualizationGate
+        fallback={
+          <main className="relative z-10 min-h-0 flex flex-col">
+            <RepoInput />
+          </main>
+        }
       >
-        <Breadcrumb />
-        <div className="relative min-h-0 flex-1">
-          <CirclePack />
+        {/* Visualization area */}
+        <main
+          data-slot="visualization"
+          className="relative z-10 min-h-0 flex flex-col"
+        >
+          <Breadcrumb />
+          <div className="relative min-h-0 flex-1">
+            <CirclePack />
+          </div>
+        </main>
+
+        {/* Timeline slot */}
+        <div
+          data-slot="timeline"
+          className="relative z-10 hidden h-[120px] border-t-2 border-border md:block"
+        >
+          <TimelineMinimap />
         </div>
-      </main>
 
-      {/* Timeline slot */}
-      <div
-        data-slot="timeline"
-        className="relative z-10 hidden h-[120px] border-t-2 border-border md:block"
-      >
-        <TimelineMinimap />
-      </div>
-
-      {/* Detail panel */}
-      <DetailPanel />
+        {/* Detail panel */}
+        <DetailPanel />
+      </VisualizationGate>
     </div>
   );
 }

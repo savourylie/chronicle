@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useReducedMotion } from "framer-motion";
 import { CircleDashed } from "@phosphor-icons/react";
 
-import { MOCK_DATA } from "@/lib/mock-data";
 import {
   buildColorContext,
   getEncodedColor,
@@ -41,7 +40,6 @@ export function CirclePack() {
   const selectedNode = useVisualizationStore((s) => s.selectedNode);
   const sizeEncoding = useVisualizationStore((s) => s.encoding.size);
   const colorEncoding = useVisualizationStore((s) => s.encoding.color);
-  const setRoot = useVisualizationStore((s) => s.setRoot);
   const selectNode = useVisualizationStore((s) => s.selectNode);
   const zoomPath = useVisualizationStore((s) => s.zoomPath);
   const zoomTo = useVisualizationStore((s) => s.zoomTo);
@@ -66,11 +64,6 @@ export function CirclePack() {
     ty: 0,
     k: 1,
   });
-
-  // Seed mock data on mount if store is empty
-  useEffect(() => {
-    if (!root) setRoot(MOCK_DATA);
-  }, [root, setRoot]);
 
   // Track container size
   useEffect(() => {
