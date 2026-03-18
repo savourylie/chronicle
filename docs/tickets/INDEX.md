@@ -24,7 +24,7 @@
       ├── 012 D3 Circle Packing – Static Render ✅ DONE (004, 010, 011)
       │    ├── 013 Circle Packing Zoom Transitions ✅ DONE (012)
       │    │    ├── 017 Breadcrumb Navigation ✅ DONE (010, 013)
-      │    │    └── 019 Search & Highlight (010, 012, 013)
+      │    │    └── 019 Search & Highlight ✅ DONE (010, 012, 013)
       │    ├── 014 Color & Size Encoding ✅ DONE (012)
       │    │    └── 020 Encoding Controls Toolbar (002, 014)
       │    ├── 015 Hover Tooltips ✅ DONE (012)
@@ -79,7 +79,7 @@
 | 016 | [Detail Panel](./016-detail-panel.md) | `done` | 012 ✅, 002 ✅ |
 | 017 | [Breadcrumb Navigation](./017-breadcrumb-navigation.md) | `done` | 010 ✅, 013 ✅ |
 | 018 | [Timeline Minimap](./018-timeline-minimap.md) | `done` | 004 ✅, 010 ✅, 011 ✅ |
-| 019 | [Search & Highlight](./019-search-highlight.md) | `not started` | 010 ✅, 012 ✅, 013 ✅ |
+| 019 | [Search & Highlight](./019-search-highlight.md) | `done` | 010 ✅, 012 ✅, 013 ✅ |
 
 ## Phase 5: Integration & Polish
 
