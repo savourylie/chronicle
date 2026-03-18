@@ -32,7 +32,7 @@
       └── 018 Timeline Minimap ✅ DONE (004, 010, 011)
 021 Git Data API Route ✅ DONE (009 ✅)
 022 URL State Sharing ✅ DONE (010)
-023 QA & Polish Pass (all)
+023 QA & Polish Pass ✅ DONE (all)
 
 024 Supabase Setup & Migration (001)
 025 GitHub URL Parsing & Validation (001)
@@ -88,7 +88,7 @@
 | 020 | [Encoding Controls Toolbar](./020-encoding-controls-toolbar.md) | `done` | 002 ✅, 014 ✅ |
 | 021 | [Git Data API Route](./021-git-data-api-route.md) | `done` | 009 ✅ |
 | 022 | [URL State Sharing](./022-url-state-sharing.md) | `done` | 010 ✅ |
-| 023 | [QA & Polish Pass](./023-qa-polish-pass.md) | `not started` | all |
+| 023 | [QA & Polish Pass](./023-qa-polish-pass.md) | `done` | all |
 
 ## Phase 6: GitHub Analysis
 
