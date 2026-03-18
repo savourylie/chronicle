@@ -92,43 +92,6 @@ export function getNodeId(node: CommitGroup | CommitNode): string {
   return isCommitNode(node) ? node.hash : node.id;
 }
 
-const CHART_COLORS = [
-  "var(--chart-1)",
-  "var(--chart-2)",
-  "var(--chart-3)",
-  "var(--chart-4)",
-  "var(--chart-5)",
-];
-
-export function getNodeColor(
-  depth: number,
-  isLeaf: boolean,
-): { fill: string; stroke: string } {
-  if (isLeaf) {
-    const color = CHART_COLORS[depth % CHART_COLORS.length];
-    return { fill: color, stroke: color };
-  }
-
-  // Group circles — translucent fills based on depth
-  switch (depth) {
-    case 1:
-      return {
-        fill: "color-mix(in srgb, var(--primary) 8%, transparent)",
-        stroke: "var(--primary)",
-      };
-    case 2:
-      return {
-        fill: "color-mix(in srgb, var(--secondary) 8%, transparent)",
-        stroke: "var(--secondary)",
-      };
-    default:
-      return {
-        fill: "color-mix(in srgb, var(--tertiary) 8%, transparent)",
-        stroke: "var(--tertiary)",
-      };
-  }
-}
-
 export function shouldShowLabel(radius: number, isLeaf: boolean): boolean {
   return isLeaf ? radius > 20 : radius > 30;
 }

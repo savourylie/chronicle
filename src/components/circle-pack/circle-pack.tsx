@@ -5,14 +5,20 @@ import { useReducedMotion } from "framer-motion";
 import { CircleDashed } from "@phosphor-icons/react";
 
 import { MOCK_DATA } from "@/lib/mock-data";
+import {
+  buildColorContext,
+  getEncodedColor,
+  type ColorContext,
+} from "@/lib/encoding";
 import { useVisualizationStore } from "@/store/visualization-store";
+import type { ColorEncoding } from "@/types";
 import {
   buildD3Hierarchy,
   findPackedNode,
-  getNodeColor,
   shouldShowLabel,
   type HierarchyDatum,
 } from "./utils";
+import { ColorLegend } from "./color-legend";
 import {
   computeZoomView,
   createZoomTransition,
@@ -31,6 +37,7 @@ export function CirclePack() {
   const root = useVisualizationStore((s) => s.root);
   const selectedNode = useVisualizationStore((s) => s.selectedNode);
   const sizeEncoding = useVisualizationStore((s) => s.encoding.size);
+  const colorEncoding = useVisualizationStore((s) => s.encoding.color);
   const setRoot = useVisualizationStore((s) => s.setRoot);
   const selectNode = useVisualizationStore((s) => s.selectNode);
   const zoomPath = useVisualizationStore((s) => s.zoomPath);
@@ -84,6 +91,12 @@ export function CirclePack() {
       dimensions.height,
     );
   }, [root, sizeEncoding, dimensions.width, dimensions.height]);
+
+  // Pre-compute color context
+  const colorContext = useMemo(
+    () => (root ? buildColorContext(root) : null),
+    [root],
+  );
 
   // --- Zoom animation driven by zoomPath changes ---
   useEffect(() => {
@@ -194,7 +207,7 @@ export function CirclePack() {
   const focusDepth = zoomPath.length;
 
   return (
-    <div ref={containerRef} className="h-full w-full">
+    <div ref={containerRef} className="relative h-full w-full">
       {packedRoot && dimensions.width > 0 && (
         <svg
           width={dimensions.width}
@@ -219,10 +232,15 @@ export function CirclePack() {
                   onZoom={handleZoom}
                   zoomK={transform.k}
                   focusDepth={focusDepth}
+                  colorEncoding={colorEncoding}
+                  colorContext={colorContext}
                 />
               ))}
           </g>
         </svg>
+      )}
+      {colorContext && (
+        <ColorLegend encoding={colorEncoding} context={colorContext} />
       )}
     </div>
   );
@@ -239,6 +257,8 @@ function CircleNode({
   onZoom,
   zoomK,
   focusDepth,
+  colorEncoding,
+  colorContext,
 }: {
   node: d3.HierarchyCircularNode<HierarchyDatum>;
   isSelected: boolean;
@@ -246,10 +266,14 @@ function CircleNode({
   onZoom: (id: string) => void;
   zoomK: number;
   focusDepth: number;
+  colorEncoding: ColorEncoding;
+  colorContext: ColorContext | null;
 }) {
   const { x, y, r } = node;
   const { isLeaf } = node.data;
-  const colors = getNodeColor(node.depth, isLeaf);
+  const colors = colorContext
+    ? getEncodedColor(node.data, colorEncoding, colorContext)
+    : { fill: "var(--muted)", stroke: "var(--muted-foreground)" };
 
   // Effective screen-space radius for label visibility
   const effectiveR = getEffectiveRadius(r, zoomK);
@@ -311,7 +335,7 @@ function CircleNode({
         vectorEffect="non-scaling-stroke"
         style={{
           transition:
-            "stroke 0.3s var(--ease-bounce), stroke-width 0.3s var(--ease-bounce), opacity 0.3s ease",
+            "fill 0.4s ease, stroke 0.3s var(--ease-bounce), stroke-width 0.3s var(--ease-bounce), opacity 0.3s ease",
         }}
       />
 
