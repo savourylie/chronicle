@@ -27,7 +27,7 @@
       │    │    └── 019 Search & Highlight (010, 012, 013)
       │    ├── 014 Color & Size Encoding ✅ DONE (012)
       │    │    └── 020 Encoding Controls Toolbar (002, 014)
-      │    ├── 015 Hover Tooltips (012)
+      │    ├── 015 Hover Tooltips ✅ DONE (012)
       │    └── 016 Detail Panel (012, 002)
       └── 018 Timeline Minimap (004, 010, 011)
 021 Git Data API Route (009 ✅)
@@ -70,7 +70,7 @@
 | 012 | [D3 Circle Packing – Static Render](./012-d3-circle-packing-static.md) | `done` | 004 ✅, 010 ✅, 011 ✅ |
 | 013 | [Circle Packing Zoom Transitions](./013-circle-packing-zoom-transitions.md) | `done` | 012 ✅ |
 | 014 | [Color & Size Encoding](./014-color-size-encoding.md) | `done` | 012 ✅ |
-| 015 | [Hover Tooltips](./015-hover-tooltips.md) | `not started` | 012 ✅ |
+| 015 | [Hover Tooltips](./015-hover-tooltips.md) | `done` | 012 ✅ |
 
 ## Phase 4: Interactive Features (M2 part 2)
 
