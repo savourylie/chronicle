@@ -8,6 +8,7 @@ import type {
   ColorEncoding,
 } from "@/types";
 import { isCommitNode, isCommitGroup } from "@/types";
+import type { UrlState } from "@/lib/url-state";
 
 // ---------------------------------------------------------------------------
 // Internal helpers
@@ -149,6 +150,7 @@ export interface VisualizationStoreState {
     key: K,
     value: VisualizationStoreState["encoding"][K]
   ) => void;
+  hydrateFromUrl: (urlState: UrlState) => void;
 
   // Derived selectors
   currentFocus: () => CommitGroup | null;
@@ -218,6 +220,57 @@ export const useVisualizationStore = create<VisualizationStoreState>()(
 
     setEncoding: (key, value) =>
       set((state) => ({ encoding: { ...state.encoding, [key]: value } })),
+
+    hydrateFromUrl: (urlState) => {
+      const { root } = get();
+      if (!root) return;
+
+      // Validate zoom path — walk each segment, truncate at first invalid one
+      let zoomPath: string[] = [];
+      if (urlState.zoom && urlState.zoom.length > 0) {
+        let current: CommitGroup = root;
+        for (const id of urlState.zoom) {
+          const path = findGroupPath(current, id);
+          if (path) {
+            zoomPath.push(id);
+            // Walk into that child for next iteration
+            const child = current.children.find(
+              (c) => isCommitGroup(c) && c.id === id
+            );
+            if (child && isCommitGroup(child)) {
+              current = child;
+            } else {
+              break;
+            }
+          } else {
+            break; // invalid segment, truncate here
+          }
+        }
+      }
+
+      // Validate selected node
+      const selectedNode =
+        urlState.selected && findNodeById(root, urlState.selected)
+          ? urlState.selected
+          : null;
+
+      // Build encoding (already validated by parseUrlState)
+      const encoding = {
+        size: urlState.size ?? get().encoding.size,
+        color: urlState.color ?? get().encoding.color,
+      };
+
+      // Build filters — start fresh so absent URL params clear old values
+      const filters: VisualizationStoreState["filters"] = {};
+      if (urlState.search) {
+        filters.searchQuery = urlState.search;
+      }
+      if (urlState.dateFrom && urlState.dateTo) {
+        filters.dateRange = [urlState.dateFrom, urlState.dateTo];
+      }
+
+      set({ zoomPath, selectedNode, encoding, filters });
+    },
 
     // ---- Derived selectors ----
 

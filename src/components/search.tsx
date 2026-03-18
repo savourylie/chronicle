@@ -11,11 +11,18 @@ export function Search() {
   const setFilter = useVisualizationStore((s) => s.setFilter);
   const zoomTo = useVisualizationStore((s) => s.zoomTo);
 
+  const storeSearchQuery = useVisualizationStore((s) => s.filters.searchQuery);
+
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [dropdownDismissed, setDropdownDismissed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Sync local state when store changes externally (URL hydration / popstate)
+  useEffect(() => {
+    setQuery(storeSearchQuery ?? "");
+  }, [storeSearchQuery]);
 
   // Debounce query → store
   useEffect(() => {
