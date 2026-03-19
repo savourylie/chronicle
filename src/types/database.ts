@@ -5,7 +5,7 @@ export type AnalysisStatus =
   | "complete"
   | "error";
 
-export interface AnalysisRow {
+export type AnalysisRow = {
   id: string;
   repo_url: string;
   repo_owner: string | null;
@@ -18,7 +18,7 @@ export interface AnalysisRow {
   pipeline_ms: number | null;
   created_at: string;
   updated_at: string;
-}
+};
 
 export type AnalysisInsert = Pick<AnalysisRow, "repo_url"> &
   Partial<
@@ -49,14 +49,21 @@ export type AnalysisUpdate = Partial<
   >
 >;
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       analyses: {
         Row: AnalysisRow;
         Insert: AnalysisInsert;
         Update: AnalysisUpdate;
+        Relationships: [];
       };
     };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
   };
-}
+};

@@ -20,3 +20,5 @@ export type {
   AnalysisUpdate,
   Database,
 } from "./database";
+
+export type { Analysis } from "./analysis";
