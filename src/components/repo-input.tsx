@@ -27,7 +27,7 @@ async function analyzeRepo(repoPath: string): Promise<AnalyzeResponse> {
   return res.json();
 }
 
-export function RepoInput() {
+export function RepoInput({ hideHeader }: { hideHeader?: boolean } = {}) {
   const [path, setPath] = useState("");
   const setRoot = useVisualizationStore((s) => s.setRoot);
 
@@ -46,20 +46,22 @@ export function RepoInput() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-8 px-4">
+    <div className={hideHeader ? "flex w-full max-w-md flex-col gap-3" : "flex h-full w-full flex-col items-center justify-center gap-8 px-4"}>
       {/* Title area */}
-      <div className="flex flex-col items-center gap-3">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-border bg-accent/10">
-          <FolderOpen size={32} weight="duotone" className="text-accent" />
+      {!hideHeader && (
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-border bg-accent/10">
+            <FolderOpen size={32} weight="duotone" className="text-accent" />
+          </div>
+          <h2 className="font-heading text-2xl font-bold">
+            Analyze a Repository
+          </h2>
+          <p className="max-w-sm text-center text-sm text-muted-foreground">
+            Enter the path to a local git repository to visualize its commit
+            history.
+          </p>
         </div>
-        <h2 className="font-heading text-2xl font-bold">
-          Analyze a Repository
-        </h2>
-        <p className="max-w-sm text-center text-sm text-muted-foreground">
-          Enter the path to a local git repository to visualize its commit
-          history.
-        </p>
-      </div>
+      )}
 
       {/* Input form */}
       <form

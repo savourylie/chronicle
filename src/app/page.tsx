@@ -4,7 +4,7 @@ import { DetailPanel } from "@/components/detail-panel";
 import { EncodingToolbar } from "@/components/encoding-toolbar";
 import { Header } from "@/components/layout/header";
 import { Decorations } from "@/components/layout/decorations";
-import { RepoInput } from "@/components/repo-input";
+import { RepoInputTabs } from "@/components/repo-input-tabs";
 import { Search } from "@/components/search";
 import { TimelineMinimap } from "@/components/timeline";
 import { VisualizationGate } from "@/components/visualization-gate";
@@ -26,7 +26,7 @@ export default function Home() {
       <VisualizationGate
         fallback={
           <main className="relative z-10 min-h-0 flex flex-col">
-            <RepoInput />
+            <RepoInputTabs />
           </main>
         }
       >

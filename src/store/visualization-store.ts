@@ -108,6 +108,7 @@ function filterTree(
 export interface VisualizationStoreState {
   // State
   root: CommitGroup | null;
+  analysisId: string | null;
   _nodeMap: Map<string, TreeNode>;
   zoomPath: string[];
   selectedNode: string | null;
@@ -124,6 +125,7 @@ export interface VisualizationStoreState {
 
   // Actions
   setRoot: (data: CommitGroup) => void;
+  setAnalysisId: (id: string | null) => void;
   resetRoot: () => void;
   zoomTo: (nodeId: string) => void;
   zoomOut: () => void;
@@ -154,6 +156,7 @@ export const useVisualizationStore = create<VisualizationStoreState>()(
   subscribeWithSelector((set, get) => ({
     // ---- State ----
     root: null,
+    analysisId: null,
     _nodeMap: new Map(),
     zoomPath: [],
     selectedNode: null,
@@ -179,8 +182,10 @@ export const useVisualizationStore = create<VisualizationStoreState>()(
       set({ root: data, _nodeMap: map, zoomPath: [], selectedNode: null });
     },
 
+    setAnalysisId: (id) => set({ analysisId: id }),
+
     resetRoot: () =>
-      set({ root: null, _nodeMap: new Map(), zoomPath: [], selectedNode: null, filters: {} }),
+      set({ root: null, analysisId: null, _nodeMap: new Map(), zoomPath: [], selectedNode: null, filters: {} }),
 
     zoomTo: (nodeId) => {
       const { root } = get();
