@@ -38,8 +38,8 @@
 025 GitHub URL Parsing & Validation ✅ DONE (001)
 026 Git Clone Manager ✅ DONE (001)
 027 Analysis Types & Data Access Layer ✅ DONE (003 ✅, 024 ✅)
- └── 028 GitHub Analysis API Route (021 ✅, 025 ✅, 026 ✅, 027 ✅)
-      └── 029 GitHub Analysis Frontend (010, 011, 028)
+ └── 028 GitHub Analysis API Route ✅ DONE (021 ✅, 025 ✅, 026 ✅, 027 ✅)
+      └── 029 GitHub Analysis Frontend (010, 011, 028 ✅)
 ```
 
 ## Phase 1: Foundation (M0)
@@ -98,5 +98,5 @@
 | 025 | [GitHub URL Parsing & Validation](./025-github-url-parsing-validation.md) | `done` | 001 ✅ |
 | 026 | [Git Clone Manager](./026-git-clone-manager.md) | `done` | 001 ✅ |
 | 027 | [Analysis Types & Data Access Layer](./027-analysis-types-data-access.md) | `done` | 003 ✅, 024 ✅ |
-| 028 | [GitHub Analysis API Route](./028-github-analysis-api-route.md) | `not started` | 021 ✅, 025 ✅, 026 ✅, 027 ✅ |
-| 029 | [GitHub Analysis Frontend](./029-github-analysis-frontend.md) | `not started` | 010 ✅, 011 ✅, 028 |
+| 028 | [GitHub Analysis API Route](./028-github-analysis-api-route.md) | `done` | 021 ✅, 025 ✅, 026 ✅, 027 ✅ |
+| 029 | [GitHub Analysis Frontend](./029-github-analysis-frontend.md) | `not started` | 010 ✅, 011 ✅, 028 ✅ |
